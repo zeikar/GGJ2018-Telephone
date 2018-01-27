@@ -22,6 +22,10 @@ public class SwitchScript : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
+		if (Title.Instance != null && Title.Instance.BoardWidth != -1)
+			Width = Title.Instance.BoardWidth;
+		if (Title.Instance != null && Title.Instance.BoardHeight != -1)
+			Height = Title.Instance.BoardHeight;
 		float l = -ViewWidth / 2.0f-2;
 		float t = ViewHeight / 2.0f+1.5f;
 		float sx = ViewWidth *1.0f / Width;

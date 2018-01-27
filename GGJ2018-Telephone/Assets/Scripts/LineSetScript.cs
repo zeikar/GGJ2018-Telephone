@@ -51,6 +51,9 @@ public class LineSetScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+		if (Title.Instance != null)
+			if (Title.Instance.SwitchN != -1)
+			N = Title.Instance.SwitchN;
 		float l = - (N-1) / 2f * 2.1f;
 		for (var i = 0; i < N; i++) {
 			var o = Instantiate (LineSet, LineSetArray.transform);

@@ -48,6 +48,7 @@ public class CableEndScript : MonoBehaviour {
 	void OnMouseDown() {
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 		Vector3 curPositionOff = Camera.main.ScreenToWorldPoint(curScreenPoint);
+		curPositionOff.z = 0;
 
 		UpdateLineObject (curPositionOff);
 		lineObject.SetActive (true);
@@ -67,6 +68,7 @@ public class CableEndScript : MonoBehaviour {
 		p2.z = -8;
 		lineObject.transform.position = p2;
 		var delta = p - initialPosition;
+		Debug.Log ("LINE LEN " + delta.magnitude);
 		self.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(-delta.x, delta.y)*180/3.141592f);
 		lineObject.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(delta.y, delta.x)*180/3.141592f);
 		lineObject.transform.localScale = new Vector3 (delta.magnitude*100, 10, 1);
