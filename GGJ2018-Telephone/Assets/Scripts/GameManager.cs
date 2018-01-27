@@ -84,6 +84,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void callback1()
+    {
+        ChatManager.instance.printChat("음...");
+    }
+
+    void callback2()
+    {
+        ChatManager.instance.printChat("안녕하세요 교환원입니다.");
+    }
+
     IEnumerator normalCall(object[] args)
     {
         int secondsToBegin = (int)args[0];
@@ -119,7 +129,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        ChatManager.instance.printChat("안녕하세요. 교환원입니다!");
+        ChatManager.instance.printChoiceChat("", "음...", "안녕하세요 교환원입니다.", callback1, callback2);
         yield return new WaitForSeconds(1.0f);
         ChatManager.instance.printChat(msg, sender);
 
@@ -128,7 +138,7 @@ public class GameManager : MonoBehaviour
 
         while (true)
         {
-            Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+            Debug.Log("line valid "      + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
             if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2 + 1, recver.getSlot()))
                 break;

@@ -10,7 +10,7 @@ public class Test : MonoBehaviour {
         ChatManager.instance.printChat("Hello World...");
         ChatManager.instance.printChat("전화교환수");
 
-        ChatManager.instance.printChoiceChat("sasdasd", "asdasdad", "agafg s");
+        //ChatManager.instance.printChoiceChat("sasdasd", "asdasdad", "agafg s");
     }
 	
 	// Update is called once per frame

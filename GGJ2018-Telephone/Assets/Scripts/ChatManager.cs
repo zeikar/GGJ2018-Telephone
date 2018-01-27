@@ -71,7 +71,7 @@ public class ChatManager : MonoBehaviour
         StartCoroutine("printCharacter", arguments);
     }
 
-    public void printChoiceChat(string content, string choice1, string choice2)
+    public void printChoiceChat(string content, string choice1, string choice2, UnityEngine.Events.UnityAction buttonCallback1, UnityEngine.Events.UnityAction buttonCallback2)
     {
         GameObject chatBubble = Instantiate(choiceBubble, chatPanel);
 
@@ -91,7 +91,8 @@ public class ChatManager : MonoBehaviour
 
         Button[] buttons = chatBubble.GetComponentsInChildren<Button>();
 
-        buttons[0].onClick.AddListener(test);
+        buttons[0].onClick.AddListener(buttonCallback1);
+        buttons[1].onClick.AddListener(buttonCallback2);
     }
 
     void test()
