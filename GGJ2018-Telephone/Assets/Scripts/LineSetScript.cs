@@ -20,8 +20,14 @@ public class LineSetScript : MonoBehaviour {
         switchOffs[index].SetActive(!onoff);
     }
 
+    public static bool IsSwitchOperatorOn(int lineIndex)
+    {
+        return switchOns[lineIndex * 2].activeInHierarchy;
+    }
+
     public static void ToggleSwitch(int index)
     {
+        Debug.Log("TS "+index);
         if (switchOffs[index].activeInHierarchy)
             SwitchOn(index, true);
         else
@@ -64,8 +70,8 @@ public class LineSetScript : MonoBehaviour {
 			if (0 == Random.Range (0, 2))
 				angle = -angle;
 			co.transform.localRotation = Quaternion.Euler (0, 0, angle);
-			ci.GetComponent<CableEndScript> ().Init (ci);
-			co.GetComponent<CableEndScript> ().Init (co);
+			ci.GetComponent<CableEndScript> ().Init (ci, i*2);
+			co.GetComponent<CableEndScript> ().Init (co, i*2+1);
 		}
 	}
 	

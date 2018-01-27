@@ -8,6 +8,7 @@ public class CableEndScript : MonoBehaviour {
 	bool placed = false;
 	GameObject connected;
 	public Sprite whiteSprite;
+    int myIndex;
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +22,8 @@ public class CableEndScript : MonoBehaviour {
 		lineObject.SetActive (false);
 	}
 
-	public void Init(GameObject go){
+	public void Init(GameObject go, int index){
+        myIndex = index;
 		self = go;
 		initialPosition = go.transform.position;
 	}
@@ -89,9 +91,6 @@ public class CableEndScript : MonoBehaviour {
 				break;
 			}
 		}
-		if (hit) {
-			Debug.Log ("hit");
-		}
 	}
 
 	void OnMouseUp() {
@@ -104,9 +103,12 @@ public class CableEndScript : MonoBehaviour {
 			self.transform.rotation = Quaternion.identity;
 
 			UpdateLineObject (self.transform.position);
+
+            GameManager.Instance.OnConnect(myIndex, hit.GetComponent<CableSlot>().Index);
 		} else {
 			lineObject.SetActive (false);
 			ResetConnection();
+            GameManager.Instance.OnConnect(myIndex, -1);
 		}
 	}
 }

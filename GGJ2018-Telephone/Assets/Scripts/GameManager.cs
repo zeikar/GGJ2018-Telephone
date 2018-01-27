@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
     public int gameStage;
 
     void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
 
-        else if (instance != this)
+        else if (Instance != this)
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
@@ -26,6 +26,28 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+    }
+
+    Dictionary<int,int> cableEndConnections = new Dictionary<int, int>();
+    bool IsCableConnected(int cableEnd, int cableSlot)
+    {
+        int value;
+        if (cableEndConnections.TryGetValue(cableEnd, out value))
+        {
+            if (value == cableSlot)
+                return true;
+        }
+        return false;
+    }
+
+    public void OnConnect(int cableEnd, int cableSlot)
+    {
+        // if cableSlot == -1, cableEnd disconnected;
+        // TODO 인디케이터 연결해주기
+        if (cableSlot == -1)
+            cableEndConnections.Remove(cableEnd);
+        else
+            cableEndConnections[cableEnd] = cableSlot;
     }
 
     void SetIndicator(int slot, bool onoff)
@@ -43,12 +65,36 @@ public class GameManager : MonoBehaviour
     IEnumerator normalCall(object[] args)
     {
         int secondsToBegin = (int)args[0];
-        int slot = (int)args[1];
-        string msg = (string)args[2];
-        int opponentWaiting = (int)args[3];
-        int callDuration = (int)args[4];
+        //int slot = (int)args[1];
+        Person sender = (Person)args[1];
+        int slot = sender.getSlot();
+        Person recver = (Person)args[2];
+        string msg = (string)args[3];
+        int opponentWaiting = (int)args[4];
+        int callDuration = (int)args[5];
         yield return new WaitForSeconds(secondsToBegin);
-        SetIndicator(slot, true); 
+        SetIndicator(slot, true);
+
+        var lineSet = GameObject.Find("LineSetArray").GetComponent<LineSetScript>();
+        while(true)
+        {
+            bool found = false;
+            for(int i = 0; i < lineSet.N; i ++)
+            {
+                //Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+                if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+                break;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        ChatManager.instance.printChat(msg, sender);
+
     }
 
     private void InitGame()
@@ -67,7 +113,10 @@ public class GameManager : MonoBehaviour
         PeopleManager.instance.addPerson(new Person("강연진", "여성", "010-6616-9819", "1D"));
         PeopleManager.instance.addPerson(new Person("이우진", "남성", "010-8751-1234", "2D", "요주의 인물"));
 
-        StartCoroutine("normalCall", new object[] { 5, 4, "개똥이 바꿔주세요.", 7, 20 });
+        Person person = PeopleManager.instance.getRandomPerson();
+        Person recv = PeopleManager.instance.getRandomPerson(person);
+
+        StartCoroutine("normalCall", new object[] { 5, person, recv, recv.getName() + " 바꿔주세요.", 7, 20 });
 
 
     }

@@ -64,8 +64,6 @@ public class ChatManager : MonoBehaviour
                 Image image = child.GetComponent<Image>();
                 image.color = randomColor;
             }
-
-            str = person.getName() + " : " + str;
         }
 
         object [] arguments = new object[] { str, chatBubble.GetComponentInChildren<Text>() };

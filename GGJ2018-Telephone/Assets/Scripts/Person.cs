@@ -43,4 +43,9 @@ public class Person {
     {
         return code;
     }
+
+    public int getSlot()
+    {
+        return ((int)code[0] - (int)'1') * SwitchScript.Instance.Width + (int)code[1] - 'A';
+    }
 }
