@@ -15,6 +15,7 @@ public class Book : MonoBehaviour {
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
+    public Transform BookPages;
     public Sprite background;
     public List<Text> bookPages;
     public bool interactable=true;
@@ -77,6 +78,11 @@ public class Book : MonoBehaviour {
 
     public void Init()
     {
+        foreach (Text child in BookPages.GetComponentsInChildren<Text>())
+        {
+            bookPages.Add(child);
+        }
+
         float scaleFactor = 1;
         if (canvas) scaleFactor = canvas.scaleFactor;
         float pageWidth = (BookPanel.rect.width* scaleFactor - 1) / 2;
