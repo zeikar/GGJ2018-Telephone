@@ -7,6 +7,8 @@ public class Test : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         ChatManager.instance.printChat("testing...");
+        ChatManager.instance.printChat("Hello World...", false);
+        ChatManager.instance.printChat("전화교환수", false);
     }
 	
 	// Update is called once per frame

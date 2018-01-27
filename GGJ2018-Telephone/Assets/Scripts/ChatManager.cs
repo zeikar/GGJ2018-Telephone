@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class ChatManager : MonoBehaviour
 {
     public static ChatManager instance;
-    public Text chatText;
+    public Transform chatPanel;
+
+    public GameObject leftChatBubble;
+    public GameObject rightChatBubble;
     
     // Use this for initialization
     void Awake()
     {
         instance = this;
 
-        chatText.text = "";
+        deleteAllChatting();
     }
 
     // Update is called once per frame
@@ -22,19 +25,52 @@ public class ChatManager : MonoBehaviour
 
     }
 
-    public void printChat(string str)
+    void deleteAllChatting()
     {
-        StopAllCoroutines();
-        StartCoroutine("printCharacter", str);
+        foreach (Transform child in chatPanel.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
     }
 
-    IEnumerator printCharacter(string str)
+    public void printChat(string str, bool left = true)
     {
-        chatText.text = "";
+        GameObject chatBubble;
+
+        if (left)
+        {
+            chatBubble = Instantiate(leftChatBubble, chatPanel);
+        }
+        else
+        {
+            chatBubble = Instantiate(rightChatBubble, chatPanel);
+        }
+
+        chatBubble.transform.position = new Vector3(chatBubble.transform.position.x, 
+            chatBubble.transform.position.y + (chatPanel.childCount - 1) * -(Screen.height / 8), chatBubble.transform.position.z);
+
+        // random color
+        Color randomColor = new Color(Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f));
+        foreach (Transform child in chatBubble.transform)
+        {
+            Image image = child.GetComponent<Image>();
+            image.color = randomColor;
+        }
+
+        object [] arguments = new object[] { str, chatBubble.GetComponentInChildren<Text>() };
+
+        StartCoroutine("printCharacter", arguments);
+    }
+
+    IEnumerator printCharacter(object[] args)
+    {
+        string str = (string)args[0];
+        Text messageText = (Text)args[1];
+        messageText.text = "";
 
         for (int i = 0; i < str.Length; ++i)
         {
-            chatText.text += str[i];
+            messageText.text += str[i];
 
             yield return new WaitForSeconds(0.05f);
         }

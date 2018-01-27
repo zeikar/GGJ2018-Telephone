@@ -51,6 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\2d_TDP\Script\Appear.cs" />
+     <Compile Include="Assets\2d_TDP\Script\DialogBubble.cs" />
+     <Compile Include="Assets\2d_TDP\Script\PixelBubble.cs" />
+     <Compile Include="Assets\2d_TDP\Script\SwitchScene.cs" />
      <Compile Include="Assets\Book-Page Curl\scripts\AutoFlip.cs" />
      <Compile Include="Assets\Book-Page Curl\scripts\Book.cs" />
      <Compile Include="Assets\Scripts\ChatManager.cs" />
