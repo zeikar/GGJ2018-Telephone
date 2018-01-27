@@ -24,6 +24,10 @@ public class LineSetScript : MonoBehaviour {
     {
         return switchOns[lineIndex * 2].activeInHierarchy;
     }
+    public static bool IsSwitchTelephoneOn(int lineIndex)
+    {
+        return switchOns[lineIndex * 2+1].activeInHierarchy;
+    }
 
     public static void ToggleSwitch(int index)
     {
@@ -50,6 +54,7 @@ public class LineSetScript : MonoBehaviour {
 			o.transform.localPosition = p;
 
             indicators.Add(o.transform.Find("CableIn/CableSlot/Indicator").gameObject.GetComponent<SpriteRenderer>());
+            indicators.Add(o.transform.Find("CableOut/CableSlot/Indicator").gameObject.GetComponent<SpriteRenderer>());
             switchOffs.Add(o.transform.Find("DipOperator/SwitchOff").gameObject);
             switchOns.Add(o.transform.Find("DipOperator/SwitchOn").gameObject);
             o.transform.Find("DipOperator").gameObject.GetComponent<DipSwitch>().index = i * 2;

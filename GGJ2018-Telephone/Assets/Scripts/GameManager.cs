@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     Dictionary<int,int> cableEndConnections = new Dictionary<int, int>();
     bool IsCableConnected(int cableEnd, int cableSlot)
     {
+        foreach(var kv in cableEndConnections)
+        {
+            Debug.Log(kv.Key + " : " + kv.Value);
+        }
         int value;
         if (cableEndConnections.TryGetValue(cableEnd, out value))
         {
@@ -50,7 +54,19 @@ public class GameManager : MonoBehaviour
             cableEndConnections[cableEnd] = cableSlot;
     }
 
-    void SetIndicator(int slot, bool onoff)
+    void SetLineIndicator(int lineIndex, bool onoff)
+    {
+        if (onoff)
+        {
+            LineSetScript.indicators[lineIndex].color = new Color(1, 237f / 255, 0);
+        }
+        else
+        {
+            LineSetScript.indicators[lineIndex].color = new Color(103f/255, 97f / 255, 14f/255);
+        }
+    }
+
+    void SetSlotIndicator(int slot, bool onoff)
     {
         if (onoff)
         {
@@ -73,8 +89,9 @@ public class GameManager : MonoBehaviour
         int opponentWaiting = (int)args[4];
         int callDuration = (int)args[5];
         yield return new WaitForSeconds(secondsToBegin);
-        SetIndicator(slot, true);
+        SetSlotIndicator(slot, true);
 
+        int lineUsing = -1;
         var lineSet = GameObject.Find("LineSetArray").GetComponent<LineSetScript>();
         while(true)
         {
@@ -85,6 +102,9 @@ public class GameManager : MonoBehaviour
                 if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
                 {
                     found = true;
+                    lineUsing = i;
+                    Debug.Log("lineUsing " + i);
+                    SetLineIndicator(2*i, true);
                     break;
                 }
             }
@@ -95,6 +115,64 @@ public class GameManager : MonoBehaviour
 
         ChatManager.instance.printChat(msg, sender);
 
+        Debug.Log("print chat");
+
+        while(true)
+        {
+            Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+
+            if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+                break;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        Debug.Log("connect correct line");
+
+        {
+            var currentTime = Time.time;
+            while(Time.time - currentTime < opponentWaiting)
+            {
+                Debug.Log("wait opponent " + (Time.time - currentTime));
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        Debug.Log("wait done");
+
+        SetSlotIndicator(recver.getSlot(), true);
+        SetLineIndicator(2 * lineUsing + 1, true);
+
+        while (true)
+        {
+            if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+                break;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        {
+            var currentTime = Time.time;
+            while (Time.time - currentTime < callDuration)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        if (UnityEngine.Random.Range(0, 2) == 0)
+        {
+            SetSlotIndicator(sender.getSlot(), false);
+            SetLineIndicator(lineUsing * 2, false);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.8f));
+            SetSlotIndicator(recver.getSlot(), false);
+            SetLineIndicator(lineUsing * 2+1, false);
+        }
+        else
+        {
+            SetSlotIndicator(recver.getSlot(), false);
+            SetLineIndicator(lineUsing * 2 + 1, false);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.8f));
+            SetSlotIndicator(sender.getSlot(), false);
+            SetLineIndicator(lineUsing * 2, false);
+        }
     }
 
     private void InitGame()
