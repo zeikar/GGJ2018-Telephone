@@ -59,6 +59,7 @@
      <Compile Include="Assets\Book-Page Curl\scripts\Book.cs" />
      <Compile Include="Assets\Scripts\CableEndScript.cs" />
      <Compile Include="Assets\Scripts\ChatManager.cs" />
+     <Compile Include="Assets\Scripts\DipSwitch.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\LineSetScript.cs" />
      <Compile Include="Assets\Scripts\PeopleManager.cs" />

@@ -10,9 +10,31 @@ public class LineSetScript : MonoBehaviour {
 
 	public List<GameObject> lines;
 	public List<GameObject> cableEnds;
+    public static List<SpriteRenderer> indicators = new List<SpriteRenderer>();
+    public static List<GameObject> switchOns = new List<GameObject>();
+    public static List<GameObject> switchOffs = new List<GameObject>();
 
-	// Use this for initialization
-	void Start () {
+    public static void SwitchOn(int index, bool onoff)
+    {
+        switchOns[index].SetActive(onoff);
+        switchOffs[index].SetActive(!onoff);
+    }
+
+    public static void ToggleSwitch(int index)
+    {
+        if (switchOffs[index].activeInHierarchy)
+            SwitchOn(index, true);
+        else
+            SwitchOn(index, false);
+    }
+
+    void OnMouseUp()
+    {
+        Debug.Log("UP");
+    }
+
+    // Use this for initialization
+    void Start () {
 		float l = - (N-1) / 2f * 2.1f;
 		for (var i = 0; i < N; i++) {
 			var o = Instantiate (LineSet, LineSetArray.transform);
@@ -20,7 +42,17 @@ public class LineSetScript : MonoBehaviour {
 			p.x = l + i * 2.1f;
 			p.y = 1f;
 			o.transform.localPosition = p;
-			var ci = Instantiate (CableEnd, o.transform);
+
+            indicators.Add(o.transform.Find("CableIn/CableSlot/Indicator").gameObject.GetComponent<SpriteRenderer>());
+            switchOffs.Add(o.transform.Find("DipOperator/SwitchOff").gameObject);
+            switchOns.Add(o.transform.Find("DipOperator/SwitchOn").gameObject);
+            o.transform.Find("DipOperator").gameObject.GetComponent<DipSwitch>().index = i * 2;
+
+            switchOffs.Add(o.transform.Find("DipTelephone/SwitchOff").gameObject);
+            switchOns.Add(o.transform.Find("DipTelephone/SwitchOn").gameObject);
+            o.transform.Find("DipTelephone").gameObject.GetComponent<DipSwitch>().index = i * 2+1;
+
+            var ci = Instantiate (CableEnd, o.transform);
 			var co = Instantiate (CableEnd, o.transform);
 			ci.transform.localPosition = new Vector3 (-0.4f, 0, 0);
 			float angle = Random.Range (30f, 70f);
