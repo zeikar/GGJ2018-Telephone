@@ -13,7 +13,7 @@ public class Book : MonoBehaviour {
     [SerializeField]
     RectTransform BookPanel;
     public Sprite background;
-    public Sprite[] bookPages;
+    public Text[] bookPages;
     public bool interactable=true;
     public bool enableShadowEffect=true;
     //represent the index of the sprite shown in the right page
@@ -42,9 +42,13 @@ public class Book : MonoBehaviour {
     public Image Shadow;
     public Image ShadowLTR;
     public Image Left;
+    public Text LeftText;
     public Image LeftNext;
+    public Text LeftNextText;
     public Image Right;
+    public Text RightText;
     public Image RightNext;
+    public Text RightNextText;
     public UnityEvent OnFlip;
     float radius1, radius2;
     //Spine Bottom
@@ -247,15 +251,18 @@ public class Book : MonoBehaviour {
         Left.rectTransform.pivot = new Vector2(0, 0);
         Left.transform.position = RightNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
-        Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
+        //Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
+        LeftText.text = (currentPage < bookPages.Length) ? bookPages[currentPage].text : "";
         Left.transform.SetAsFirstSibling();
         
         Right.gameObject.SetActive(true);
         Right.transform.position = RightNext.transform.position;
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
-        Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
+        //Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
+        RightText.text = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1].text : "";
 
-        RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
+        //RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
+        RightNextText.text = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2].text : "";
 
         LeftNext.transform.SetAsFirstSibling();
         if (enableShadowEffect) Shadow.gameObject.SetActive(true);
@@ -279,7 +286,8 @@ public class Book : MonoBehaviour {
 
         Right.gameObject.SetActive(true);
         Right.transform.position = LeftNext.transform.position;
-        Right.sprite = bookPages[currentPage - 1];
+        //Right.sprite = bookPages[currentPage - 1];
+        RightText.text = bookPages[currentPage - 1].text;
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
         Right.transform.SetAsFirstSibling();
 
@@ -287,9 +295,11 @@ public class Book : MonoBehaviour {
         Left.rectTransform.pivot = new Vector2(1, 0);
         Left.transform.position = LeftNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
-        Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
+        //Left.sprite = (currentPage >= 2) ? bookPages[currentPage - 2] : background;
+        LeftText.text = (currentPage >= 2) ? bookPages[currentPage - 2].text : "";
 
-        LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
+        //LeftNext.sprite = (currentPage >= 3) ? bookPages[currentPage - 3] : background;
+        LeftNextText.text = (currentPage >= 3) ? bookPages[currentPage - 3].text : "";
 
         RightNext.transform.SetAsFirstSibling();
         if (enableShadowEffect) ShadowLTR.gameObject.SetActive(true);
@@ -324,8 +334,10 @@ public class Book : MonoBehaviour {
     Coroutine currentCoroutine;
     void UpdateSprites()
     {
-        LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
-        RightNext.sprite=(currentPage>=0 &&currentPage<bookPages.Length) ? bookPages[currentPage] : background;
+        //LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
+        LeftNextText.text = (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage - 1].text : "";
+        //RightNext.sprite=(currentPage>=0 &&currentPage<bookPages.Length) ? bookPages[currentPage] : background;
+        RightNextText.text = (currentPage >= 0 && currentPage < bookPages.Length) ? bookPages[currentPage].text : "";
     }
     public void TweenForward()
     {
