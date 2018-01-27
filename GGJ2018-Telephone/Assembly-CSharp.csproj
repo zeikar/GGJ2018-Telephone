@@ -58,6 +58,8 @@
      <Compile Include="Assets\Book-Page Curl\scripts\AutoFlip.cs" />
      <Compile Include="Assets\Book-Page Curl\scripts\Book.cs" />
      <Compile Include="Assets\Scripts\ChatManager.cs" />
+     <Compile Include="Assets\Scripts\PeopleManager.cs" />
+     <Compile Include="Assets\Scripts\Person.cs" />
      <Compile Include="Assets\Scripts\PhoneBook.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
      <None Include="Assets\Retro Info Boxes\Fonts\Nick&apos;s Fonts License.txt" />

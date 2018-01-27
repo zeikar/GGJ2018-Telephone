@@ -49,12 +49,15 @@ public class ChatManager : MonoBehaviour
         chatBubble.transform.position = new Vector3(chatBubble.transform.position.x, 
             chatBubble.transform.position.y + (chatPanel.childCount - 1) * -(Screen.height / 8), chatBubble.transform.position.z);
 
-        // random color
-        Color randomColor = new Color(Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f));
-        foreach (Transform child in chatBubble.transform)
+        if (left)
         {
-            Image image = child.GetComponent<Image>();
-            image.color = randomColor;
+            // random color
+            Color randomColor = new Color(Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f));
+            foreach (Transform child in chatBubble.transform)
+            {
+                Image image = child.GetComponent<Image>();
+                image.color = randomColor;
+            }
         }
 
         object [] arguments = new object[] { str, chatBubble.GetComponentInChildren<Text>() };
