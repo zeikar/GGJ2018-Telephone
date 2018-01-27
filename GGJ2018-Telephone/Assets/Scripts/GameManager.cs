@@ -49,9 +49,15 @@ public class GameManager : MonoBehaviour
         // if cableSlot == -1, cableEnd disconnected;
         // TODO 인디케이터 연결해주기
         if (cableSlot == -1)
+        {
             cableEndConnections.Remove(cableEnd);
+            SoundManager.instance.ConnectorSound(false);
+        }
         else
+        {
             cableEndConnections[cableEnd] = cableSlot;
+            SoundManager.instance.ConnectorSound(true);
+        }
     }
 
     void SetLineIndicator(int lineIndex, bool onoff)

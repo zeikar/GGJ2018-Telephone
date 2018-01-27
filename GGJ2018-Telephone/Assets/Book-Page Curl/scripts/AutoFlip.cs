@@ -38,6 +38,8 @@ public class AutoFlip : MonoBehaviour {
         float h = Mathf.Abs(ControledBook.EndBottomRight.y) * 0.9f;
         float dx = (xl)*2 / AnimationFramesCount;
         StartCoroutine(FlipRTL(xc, xl, h, frameTime, dx));
+
+        SoundManager.instance.pageSound();
     }
     public void FlipLeftPage()
     {
@@ -51,6 +53,8 @@ public class AutoFlip : MonoBehaviour {
         float h = Mathf.Abs(ControledBook.EndBottomRight.y) * 0.9f;
         float dx = (xl) * 2 / AnimationFramesCount;
         StartCoroutine(FlipLTR(xc, xl, h, frameTime, dx));
+
+        SoundManager.instance.pageSound();
     }
     IEnumerator FlipToEnd()
     {

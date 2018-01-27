@@ -33,9 +33,15 @@ public class LineSetScript : MonoBehaviour {
     {
         Debug.Log("TS "+index);
         if (switchOffs[index].activeInHierarchy)
+        {
             SwitchOn(index, true);
+            SoundManager.instance.SwitchSound(true);
+        }
         else
+        {
             SwitchOn(index, false);
+            SoundManager.instance.SwitchSound(false);
+        }
     }
 
     void OnMouseUp()
