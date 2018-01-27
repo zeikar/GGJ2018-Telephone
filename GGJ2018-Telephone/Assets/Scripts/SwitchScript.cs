@@ -12,6 +12,7 @@ public class SwitchScript : MonoBehaviour {
 	public GameObject Switchboard;
 
 	public static List<GameObject> cableSlots = new List<GameObject>();
+    public static List<SpriteRenderer> indicators = new List<SpriteRenderer>();
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +29,8 @@ public class SwitchScript : MonoBehaviour {
 				p.y = t - sy * (y+0.5f);
 				o.transform.position = p;
 				cableSlots.Add (o);
+                indicators.Add(o.transform.Find("Indicator").gameObject.GetComponent<SpriteRenderer>());
+                indicators[indicators.Count - 1].color = new Color(15f / 255, 64f / 255, 0);
 				Debug.Log (p.x + " "+ p.y);
 			}
 		}

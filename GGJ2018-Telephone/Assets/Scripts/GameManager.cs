@@ -24,6 +24,33 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
 
+    void Update()
+    {
+    }
+
+    void SetIndicator(int slot, bool onoff)
+    {
+        if (onoff)
+        {
+            SwitchScript.indicators[slot].color = new Color(51f / 255, 1, 0);
+        }
+        else
+        {
+            SwitchScript.indicators[slot].color = new Color(15f / 255, 64f / 255, 0);
+        }
+    }
+
+    IEnumerator normalCall(object[] args)
+    {
+        int secondsToBegin = (int)args[0];
+        int slot = (int)args[1];
+        string msg = (string)args[2];
+        int opponentWaiting = (int)args[3];
+        int callDuration = (int)args[4];
+        yield return new WaitForSeconds(secondsToBegin);
+        SetIndicator(slot, true); 
+    }
+
     private void InitGame()
     {
         gameStage = 1;
@@ -39,6 +66,10 @@ public class GameManager : MonoBehaviour
         PeopleManager.instance.addPerson(new Person("배미나", "여성", "010-6788-4521", "3C"));
         PeopleManager.instance.addPerson(new Person("강연진", "여성", "010-6616-9819", "1D"));
         PeopleManager.instance.addPerson(new Person("이우진", "남성", "010-8751-1234", "2D", "요주의 인물"));
+
+        StartCoroutine("normalCall", new object[] { 5, 4, "개똥이 바꿔주세요.", 7, 20 });
+
+
     }
 
     public void newPerson()
