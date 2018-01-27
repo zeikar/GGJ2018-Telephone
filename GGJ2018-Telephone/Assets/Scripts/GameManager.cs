@@ -28,10 +28,10 @@ public class GameManager : MonoBehaviour
     {
     }
 
-    Dictionary<int,int> cableEndConnections = new Dictionary<int, int>();
+    Dictionary<int, int> cableEndConnections = new Dictionary<int, int>();
     bool IsCableConnected(int cableEnd, int cableSlot)
     {
-        foreach(var kv in cableEndConnections)
+        foreach (var kv in cableEndConnections)
         {
             Debug.Log(kv.Key + " : " + kv.Value);
         }
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            LineSetScript.indicators[lineIndex].color = new Color(103f/255, 97f / 255, 14f/255);
+            LineSetScript.indicators[lineIndex].color = new Color(103f / 255, 97f / 255, 14f / 255);
         }
     }
 
@@ -99,18 +99,18 @@ public class GameManager : MonoBehaviour
 
         int lineUsing = -1;
         var lineSet = GameObject.Find("LineSetArray").GetComponent<LineSetScript>();
-        while(true)
+        while (true)
         {
             bool found = false;
-            for(int i = 0; i < lineSet.N; i ++)
+            for (int i = 0; i < lineSet.N; i++)
             {
                 //Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-                if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+                if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i * 2, slot))
                 {
                     found = true;
                     lineUsing = i;
                     Debug.Log("lineUsing " + i);
-                    SetLineIndicator(2*i, true);
+                    SetLineIndicator(2 * i, true);
                     break;
                 }
             }
@@ -119,15 +119,18 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        ChatManager.instance.printChat("안녕하세요. 교환원입니다!");
+        yield return new WaitForSeconds(1.0f);
         ChatManager.instance.printChat(msg, sender);
+
 
         Debug.Log("print chat");
 
-        while(true)
+        while (true)
         {
             Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-            if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+            if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2 + 1, recver.getSlot()))
                 break;
             yield return new WaitForSeconds(0.1f);
         }
@@ -136,7 +139,7 @@ public class GameManager : MonoBehaviour
 
         {
             var currentTime = Time.time;
-            while(Time.time - currentTime < opponentWaiting)
+            while (Time.time - currentTime < opponentWaiting)
             {
                 Debug.Log("wait opponent " + (Time.time - currentTime));
                 yield return new WaitForSeconds(0.1f);
@@ -179,7 +182,7 @@ public class GameManager : MonoBehaviour
             SetLineIndicator(lineUsing * 2, false);
             yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.8f));
             SetSlotIndicator(recver.getSlot(), false);
-            SetLineIndicator(lineUsing * 2+1, false);
+            SetLineIndicator(lineUsing * 2 + 1, false);
         }
         else
         {
@@ -211,7 +214,7 @@ public class GameManager : MonoBehaviour
         List<int> reviveTime = new List<int>();
         string[] comments = new string[] { " 바꿔주세요.", " 바꿔줘요.", " 바꿔 주십시오." };
         int startTime = 0;
-        for (int i = 0; i < 10; i ++)
+        for (int i = 0; i < 10; i++)
         {
             do
             {
@@ -241,14 +244,14 @@ public class GameManager : MonoBehaviour
             int duration = UnityEngine.Random.Range(10, 20);
             reviveTime.Add(startTime + 20 + opponentWait + duration + 10);
             reviveTime.Add(startTime + 20 + opponentWait + duration + 10);
-            StartCoroutine("normalCall", new object[] { startTime, sender, recver, recver.getName() + comments[UnityEngine.Random.Range(0, comments.Length)], 
+            StartCoroutine("normalCall", new object[] { startTime, sender, recver, recver.getName() + comments[UnityEngine.Random.Range(0, comments.Length)],
                 opponentWait, duration });
         }
 
 
         //Person person = PeopleManager.instance.getRandomPerson();
         //Person recv = PeopleManager.instance.getRandomPerson(person);
-        
+
         //StartCoroutine("normalCall", new object[] { 5, person, recv, recv.getName() + " 바꿔주세요.", 7, 20 });
 
 
