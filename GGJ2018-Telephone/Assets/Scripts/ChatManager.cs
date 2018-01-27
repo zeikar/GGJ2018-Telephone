@@ -88,6 +88,15 @@ public class ChatManager : MonoBehaviour
         texts[0].text = content;
         texts[1].text = choice1;
         texts[2].text = choice2;
+
+        Button[] buttons = chatBubble.GetComponentsInChildren<Button>();
+
+        buttons[0].onClick.AddListener(test);
+    }
+
+    void test()
+    {
+        Debug.Log("asdasd");
     }
 
     IEnumerator printCharacter(object[] args)
