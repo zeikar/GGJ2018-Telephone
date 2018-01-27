@@ -119,10 +119,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        ChatManager.instance.printChat("안녕하세요. 교환원입니다!");
-        yield return new WaitForSeconds(1.0f);
         ChatManager.instance.printChat(msg, sender);
-
 
         Debug.Log("print chat");
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +7,8 @@ public class PhoneBook : MonoBehaviour
 {
     public static PhoneBook instance;
     public GameObject bookPagePrefab;
-    public Transform bookPageParent;
     Animator animator;
     bool isActive;
-
-    // for generating book page
-    Text lastPage;
 
     // Use this for initialization
     void Awake()
@@ -21,16 +16,14 @@ public class PhoneBook : MonoBehaviour
         instance = this;
         animator = GetComponent<Animator>();
         isActive = false;
-
-        lastPage = Instantiate(bookPagePrefab, bookPageParent).GetComponent<Text>();
     }
 
     void Start()
     {
+        string buffer = "";
 
         for (int i = 0; i < PeopleManager.instance.people.Count; ++i)
         {
-            string buffer = "";
             Person person = PeopleManager.instance.people[i];
 
             buffer += person.getName() + " : " + person.getNumber() + '/' + person.getCode() + '\n';
@@ -42,20 +35,24 @@ public class PhoneBook : MonoBehaviour
 
             buffer += '\n';
 
-            AddBook(buffer);
+            if (i % 5 == 4)
+            {
+                Text bookPage = Instantiate(bookPagePrefab, this.transform).GetComponent<Text>();
+                bookPage.text = buffer;
+                Book.instance.bookPages.Add(bookPage);
+
+                buffer = "";
+            }
+        }
+
+        if (!buffer.Equals(""))
+        {
+            Text bookPage = Instantiate(bookPagePrefab, this.transform).GetComponent<Text>();
+            bookPage.text = buffer;
+            Book.instance.bookPages.Add(bookPage);
         }
 
         Book.instance.Init();
-    }
-
-    public void AddBook(string str)
-    {
-        if (lastPage.text.Count(x => x == '\n') > 6)
-        {
-            lastPage = Instantiate(bookPagePrefab, bookPageParent).GetComponent<Text>();
-        }
-
-        lastPage.text += str;
     }
 
     public void PhoneBookToggle()
