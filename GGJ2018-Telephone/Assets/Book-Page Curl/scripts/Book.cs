@@ -67,7 +67,7 @@ public class Book : MonoBehaviour {
     //current flip mode
     FlipMode mode;
 
-    void Start()
+    void Awake()
     {
         float scaleFactor = 1;
         if (canvas) scaleFactor = canvas.scaleFactor;

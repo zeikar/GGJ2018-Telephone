@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PhoneBook : MonoBehaviour
 {
+    Animator animator;
     bool isActive;
 
     // Use this for initialization
     void Start()
     {
+        animator = GetComponent<Animator>();
         isActive = false;
-        this.gameObject.SetActive(isActive);
     }
     
     public void PhoneBookToggle()
     {
         isActive = !isActive;
 
-        this.gameObject.SetActive(isActive);
+        animator.SetBool("isActive", isActive);
     }
 }
