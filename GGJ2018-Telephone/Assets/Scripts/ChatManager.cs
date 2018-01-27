@@ -12,8 +12,6 @@ public class ChatManager : MonoBehaviour
     public GameObject rightChatBubble;
 
     Dictionary<string, Color> colorDict;
-
-    private int chrSoundIndex;
     
     // Use this for initialization
     void Awake()
@@ -79,13 +77,9 @@ public class ChatManager : MonoBehaviour
         Text messageText = (Text)args[1];
         messageText.text = "";
 
-        chrSoundIndex = (int)Random.Range(0f, 3.45f);
-        Debug.Log("character index" + chrSoundIndex);
-
         for (int i = 0; i < str.Length; ++i)
         {
             messageText.text += str[i];
-            SoundManager.instance.speechSound(chrSoundIndex);
 
             yield return new WaitForSeconds(0.05f);
         }

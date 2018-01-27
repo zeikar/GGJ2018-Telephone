@@ -58,7 +58,7 @@ public class PhoneBook : MonoBehaviour
     public void PhoneBookToggle()
     {
         isActive = !isActive;
-        SoundManager.instance.bookSound(isActive);
+
         animator.SetBool("isActive", isActive);
     }
 }
