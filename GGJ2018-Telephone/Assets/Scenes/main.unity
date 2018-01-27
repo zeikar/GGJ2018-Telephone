@@ -1287,8 +1287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d308503e6a7b44452aae36626f68ba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 4
-  Height: 3
+  Width: 6
+  Height: 4
   CableSlot: {fileID: 1555929099241390, guid: 781241a040a7f446f96646a8dbd0f5ea, type: 2}
   Switchboard: {fileID: 1527345380}
 --- !u!4 &1527345382
@@ -1335,7 +1335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 740a0e67bf0284779b759da56eec69b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  N: 3
+  N: 6
   LineSet: {fileID: 1177800333346120, guid: 58c62c562297f43c0a0073a9e9e806ad, type: 2}
   LineSetArray: {fileID: 1677549120}
   CableEnd: {fileID: 1532944257334492, guid: 1765db9b1863242cab0e73f6319a033c, type: 2}

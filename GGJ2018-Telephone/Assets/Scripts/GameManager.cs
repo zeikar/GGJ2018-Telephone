@@ -151,11 +151,21 @@ public class GameManager : MonoBehaviour
 
         {
             var currentTime = Time.time;
+            bool blinking = true;
             while (Time.time - currentTime < callDuration)
             {
+                blinking = !blinking;
+                SetSlotIndicator(sender.getSlot(), blinking);
+                SetLineIndicator(lineUsing * 2, blinking);
+                SetSlotIndicator(recver.getSlot(), !blinking);
+                SetLineIndicator(lineUsing * 2 + 1, !blinking);
                 yield return new WaitForSeconds(0.1f);
             }
         }
+        SetSlotIndicator(sender.getSlot(), true);
+        SetLineIndicator(lineUsing * 2, true);
+        SetSlotIndicator(recver.getSlot(), true);
+        SetLineIndicator(lineUsing * 2 + 1, true);
 
         if (UnityEngine.Random.Range(0, 2) == 0)
         {
@@ -191,10 +201,49 @@ public class GameManager : MonoBehaviour
         PeopleManager.instance.addPerson(new Person("강연진", "여성", "010-6616-9819", "1D"));
         PeopleManager.instance.addPerson(new Person("이우진", "남성", "010-8751-1234", "2D", "요주의 인물"));
 
-        Person person = PeopleManager.instance.getRandomPerson();
-        Person recv = PeopleManager.instance.getRandomPerson(person);
+        List<Person> used = new List<Person>();
+        List<int> reviveTime = new List<int>();
+        string[] comments = new string[] { " 바꿔주세요.", " 바꿔줘요.", " 바꿔 주십시오." };
+        int startTime = 0;
+        for (int i = 0; i < 10; i ++)
+        {
+            do
+            {
+                startTime += UnityEngine.Random.Range(10, 16);
+                for (int j = 0; j < used.Count;)
+                {
+                    if (reviveTime[j] < startTime)
+                    {
+                        used.RemoveAt(j);
+                        reviveTime.RemoveAt(j);
+                        break;
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
 
-        StartCoroutine("normalCall", new object[] { 5, person, recv, recv.getName() + " 바꿔주세요.", 7, 20 });
+            }
+            while (PeopleManager.instance.people.Count - used.Count < 2);
+
+            Person sender = PeopleManager.instance.getRandomPersonExceptionList(used);
+            used.Add(sender);
+            Person recver = PeopleManager.instance.getRandomPersonExceptionList(used);
+            used.Add(recver);
+            int opponentWait = UnityEngine.Random.Range(2, 5);
+            int duration = UnityEngine.Random.Range(10, 20);
+            reviveTime.Add(startTime + 20 + opponentWait + duration + 10);
+            reviveTime.Add(startTime + 20 + opponentWait + duration + 10);
+            StartCoroutine("normalCall", new object[] { startTime, sender, recver, recver.getName() + comments[UnityEngine.Random.Range(0, comments.Length)], 
+                opponentWait, duration });
+        }
+
+
+        //Person person = PeopleManager.instance.getRandomPerson();
+        //Person recv = PeopleManager.instance.getRandomPerson(person);
+        
+        //StartCoroutine("normalCall", new object[] { 5, person, recv, recv.getName() + " 바꿔주세요.", 7, 20 });
 
 
     }

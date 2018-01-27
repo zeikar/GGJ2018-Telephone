@@ -31,4 +31,17 @@ public class PeopleManager : MonoBehaviour
 
         return person;
     }
+    public Person getRandomPersonExceptionList(List<Person> exceptions)
+    {
+        if (exceptions.Count >= people.Count)
+            return null;
+        Person person = people[Random.Range(0, people.Count)];
+
+        while (exceptions.Exists(x => x == person))
+        {
+            person = people[Random.Range(0, people.Count)];
+        }
+
+        return person;
+    }
 }
