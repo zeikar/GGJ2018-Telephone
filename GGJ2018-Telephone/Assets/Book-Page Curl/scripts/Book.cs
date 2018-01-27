@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections.Generic;
+
 public enum FlipMode
 {
     RightToLeft,
@@ -9,18 +11,19 @@ public enum FlipMode
 }
 [ExecuteInEditMode]
 public class Book : MonoBehaviour {
+    public static Book instance;
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
     public Sprite background;
-    public Text[] bookPages;
+    public List<Text> bookPages;
     public bool interactable=true;
     public bool enableShadowEffect=true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
     public int TotalPageCount
     {
-        get { return bookPages.Length; }
+        get { return bookPages.Count; }
     }
     public Vector3 EndBottomLeft
     {
@@ -68,6 +71,11 @@ public class Book : MonoBehaviour {
     FlipMode mode;
 
     void Awake()
+    {
+        instance = this;
+    }
+
+    public void Init()
     {
         float scaleFactor = 1;
         if (canvas) scaleFactor = canvas.scaleFactor;
@@ -238,7 +246,7 @@ public class Book : MonoBehaviour {
     }
     public void DragRightPageToPoint(Vector3 point)
     {
-        if (currentPage >= bookPages.Length) return;
+        if (currentPage >= bookPages.Count) return;
         pageDragging = true;
         mode = FlipMode.RightToLeft;
         f = point;
@@ -252,17 +260,17 @@ public class Book : MonoBehaviour {
         Left.transform.position = RightNext.transform.position;
         Left.transform.eulerAngles = new Vector3(0, 0, 0);
         //Left.sprite = (currentPage < bookPages.Length) ? bookPages[currentPage] : background;
-        LeftText.text = (currentPage < bookPages.Length) ? bookPages[currentPage].text : "";
+        LeftText.text = (currentPage < bookPages.Count) ? bookPages[currentPage].text : "";
         Left.transform.SetAsFirstSibling();
         
         Right.gameObject.SetActive(true);
         Right.transform.position = RightNext.transform.position;
         Right.transform.eulerAngles = new Vector3(0, 0, 0);
         //Right.sprite = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1] : background;
-        RightText.text = (currentPage < bookPages.Length - 1) ? bookPages[currentPage + 1].text : "";
+        RightText.text = (currentPage < bookPages.Count - 1) ? bookPages[currentPage + 1].text : "";
 
         //RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
-        RightNextText.text = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2].text : "";
+        RightNextText.text = (currentPage < bookPages.Count - 2) ? bookPages[currentPage + 2].text : "";
 
         LeftNext.transform.SetAsFirstSibling();
         if (enableShadowEffect) Shadow.gameObject.SetActive(true);
@@ -335,9 +343,9 @@ public class Book : MonoBehaviour {
     void UpdateSprites()
     {
         //LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
-        LeftNextText.text = (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage - 1].text : "";
+        LeftNextText.text = (currentPage > 0 && currentPage <= bookPages.Count) ? bookPages[currentPage - 1].text : "";
         //RightNext.sprite=(currentPage>=0 &&currentPage<bookPages.Length) ? bookPages[currentPage] : background;
-        RightNextText.text = (currentPage >= 0 && currentPage < bookPages.Length) ? bookPages[currentPage].text : "";
+        RightNextText.text = (currentPage >= 0 && currentPage < bookPages.Count) ? bookPages[currentPage].text : "";
     }
     public void TweenForward()
     {
