@@ -13,9 +13,22 @@ public class PeopleManager : MonoBehaviour
     {
         instance = this;
         people = new List<Person>();
+    }
 
-        people.Add(new Person("김개똥", "남성", "010-2737-1928"));
-        people.Add(new Person("asd", "남성", "010-2329-1234"));
-        people.Add(new Person("werwer", "남성", "010-5666-6532"));
+    public void addPerson(Person person)
+    {
+        people.Add(person);
+    }
+
+    public Person getRandomPerson(Person self = null)
+    {
+        Person person = people[Random.Range(0, people.Count)];
+
+        while (person == self)
+        {
+            person = people[Random.Range(0, people.Count)];
+        }
+
+        return person;
     }
 }

@@ -10,19 +10,17 @@ public class ChatManager : MonoBehaviour
 
     public GameObject leftChatBubble;
     public GameObject rightChatBubble;
+
+    Dictionary<string, Color> colorDict;
     
     // Use this for initialization
     void Awake()
     {
         instance = this;
 
+        colorDict = new Dictionary<string, Color>();
+
         deleteAllChatting();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void deleteAllChatting()
@@ -33,11 +31,16 @@ public class ChatManager : MonoBehaviour
         }
     }
 
-    public void printChat(string str, bool left = true)
+    public void printChat(string str, Person person = null)
     {
+        if(chatPanel.childCount >= 10)
+        {
+            Destroy(chatPanel.GetChild(0).gameObject);
+        }
+
         GameObject chatBubble;
 
-        if (left)
+        if (person != null)
         {
             chatBubble = Instantiate(leftChatBubble, chatPanel);
         }
@@ -46,18 +49,23 @@ public class ChatManager : MonoBehaviour
             chatBubble = Instantiate(rightChatBubble, chatPanel);
         }
 
-        chatBubble.transform.position = new Vector3(chatBubble.transform.position.x, 
-            chatBubble.transform.position.y + (chatPanel.childCount - 1) * -(Screen.height / 8), chatBubble.transform.position.z);
-
-        if (left)
+        if (person != null)
         {
+            if(!colorDict.ContainsKey(person.getCode()))
+            {
+                colorDict.Add(person.getCode(), new Color(Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f)));
+            }
+
             // random color
-            Color randomColor = new Color(Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f), Random.Range(0.5f, 1.0f));
+            Color randomColor;
+            colorDict.TryGetValue(person.getCode(), out randomColor);
             foreach (Transform child in chatBubble.transform)
             {
                 Image image = child.GetComponent<Image>();
                 image.color = randomColor;
             }
+
+            str = person.getName() + " : " + str;
         }
 
         object [] arguments = new object[] { str, chatBubble.GetComponentInChildren<Text>() };

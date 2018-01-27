@@ -26,9 +26,16 @@ public class PhoneBook : MonoBehaviour
         {
             Person person = PeopleManager.instance.people[i];
 
-            buffer += person.getName() + " : " + person.getNumber() + '\n';
+            buffer += person.getName() + " : " + person.getNumber() + '/' + person.getCode() + '\n';
 
-            if (i % 2 == 1)
+            if (!person.getDescription().Equals(""))
+            {
+                buffer += person.getDescription() + '\n';
+            }
+
+            buffer += '\n';
+
+            if (i % 5 == 4)
             {
                 Text bookPage = Instantiate(bookPagePrefab, this.transform).GetComponent<Text>();
                 bookPage.text = buffer;
@@ -38,7 +45,7 @@ public class PhoneBook : MonoBehaviour
             }
         }
 
-        if(buffer != "")
+        if (!buffer.Equals(""))
         {
             Text bookPage = Instantiate(bookPagePrefab, this.transform).GetComponent<Text>();
             bookPage.text = buffer;
@@ -47,7 +54,7 @@ public class PhoneBook : MonoBehaviour
 
         Book.instance.Init();
     }
-    
+
     public void PhoneBookToggle()
     {
         isActive = !isActive;
