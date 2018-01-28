@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int gameStage = -1;
 
-	int gameDay = 1;
+	public int gameDay = 1;
 
     void Awake()
     {
@@ -68,9 +68,13 @@ public class GameManager : MonoBehaviour
 			// TODO Game over
 		}
 		if (now > 0 && life < 1000)
-			life += Time.deltaTime/30;
+			life += Time.deltaTime/3;
 		if (life > 1000)
 			life = 1000;
+		if (life < 0) {
+			SceneManager.LoadScene ("scenes/gameover");
+			return;
+		}
 		{
 			// life gauge
 			var s = GameObject.Find("LifeGauge").transform.localScale;
