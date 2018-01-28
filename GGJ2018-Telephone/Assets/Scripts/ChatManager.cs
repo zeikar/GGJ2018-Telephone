@@ -78,7 +78,7 @@ public class ChatManager : MonoBehaviour
         chatBubble.transform.localPosition = new Vector3(chatBubble.transform.localPosition.x,
             chatPanel.GetChild(chatPanel.childCount - 2).localPosition.y - chatPanel.GetChild(chatPanel.childCount - 2).GetComponent<RectTransform>().rect.height, chatBubble.transform.localPosition.z);
 
-        if (chatBubble.transform.position.y < 120)
+        if (chatBubble.transform.position.y < 140)
         {
             chatPanel.position = new Vector3(chatPanel.position.x, chatPanel.position.y + 80, chatPanel.position.z);
         }
