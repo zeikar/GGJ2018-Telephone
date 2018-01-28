@@ -12,6 +12,9 @@ public class Title : MonoBehaviour {
 	public int SwitchN = -1;
 	public int BoardWidth = -1;
 	public int BoardHeight = -1;
+	public int gameStage = -1;
+	public int gameDay = 1;
+	public float life = 1000;
 
 	void Awake()
 	{
@@ -27,6 +30,8 @@ public class Title : MonoBehaviour {
 	public void onClick()
     {
 		firstStage = 1;
+		gameStage = 1;
+		gameDay = 1;
 		SwitchN = 2;
 		BoardWidth = 2;
 		BoardHeight = 2;
@@ -35,6 +40,11 @@ public class Title : MonoBehaviour {
 	public void onInfiClick()
 	{
 		firstStage = 4;
+		gameStage = 4;
+		gameDay = 1;
+		SwitchN = 6;
+		BoardWidth = 6;
+		BoardHeight = 4;
 		SceneManager.LoadScene(1);
 	}
 

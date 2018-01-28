@@ -7,30 +7,30 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public int gameStage = -1;
-
-	public int gameDay = 1;
 
     void Awake()
     {
-		gameStage = -1;
-		if (Instance == null) {
+		//if (Instance == null) {
 			Instance = this;
-			DontDestroyOnLoad(gameObject);
+			//SceneManager.activeSceneChanged += OnSceneChanged;
+			//DontDestroyOnLoad(gameObject);
 
-		}
-		else if (Instance != this) {
+		//}
+		/*else if (Instance != this) {
 			Destroy (gameObject);
-		}
-
-		if (Instance.gameStage == -1)
-			Instance.gameStage = Title.firstStage;
+		}*/
     }
+
+
+	void OnSceneChanged (Scene previousScene, Scene changedScene)
+	{
+		Debug.LogError ("OnSceneChanged "+previousScene.name+" -> " + changedScene.name);
+		Debug.Log (""+Title.Instance.gameStage+" "+Title.Instance.gameDay);
+	}
     
-	float life = 900;
     void Start()
     {
-        InitGame();
+		InitGame();
     }
 
 	void OnGUI()
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 			style.fontSize = 50;
 			style.alignment = TextAnchor.MiddleCenter;
 			GUI.Box (r, texture);
-			GUI.Label (r, "DAY " + gameDay, style);
+			GUI.Label (r, "DAY " + Title.Instance.gameDay, style);
 		}
 	}
 
@@ -64,21 +64,21 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 		var now = Time.time - dayBeginTime;
-		if (life < 0) {
+		if (Title.Instance.life < 0) {
 			// TODO Game over
 		}
-		if (now > 0 && life < 1000)
-			life += Time.deltaTime/3;
-		if (life > 1000)
-			life = 1000;
-		if (life < 0) {
+		if (now > 0 && Title.Instance.life < 1000)
+			Title.Instance.life += Time.deltaTime/3;
+		if (Title.Instance.life > 1000)
+			Title.Instance.life = 1000;
+		if (Title.Instance.life < 0) {
 			SceneManager.LoadScene ("scenes/gameover");
 			return;
 		}
 		{
 			// life gauge
 			var s = GameObject.Find("LifeGauge").transform.localScale;
-			s.y = 2000-life * 2 + Mathf.Sin (now / 3) * 20 + UnityEngine.Random.Range (-2.5f, 2.5f);
+			s.y = 2000-Title.Instance.life * 2 + Mathf.Sin (now / 3) * 20 + UnityEngine.Random.Range (-2.5f, 2.5f);
 			if (s.y < 0)
 				s.y = 0;
             GameObject.Find("LifeGauge").transform.localScale = s;
@@ -97,9 +97,9 @@ public class GameManager : MonoBehaviour
 		}
 		if (goalCount == 0) {
 			// day completed!
-			gameDay ++;
-			if (gameStage == 1)
-				gameStage = 4;
+			Title.Instance.gameDay ++;
+			if (Title.Instance.gameStage == 1)
+				Title.Instance.gameStage = 4;
 			SetPreStageVariable ();
             goalCount = -1;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -108,15 +108,15 @@ public class GameManager : MonoBehaviour
 
 	void SetPreStageVariable()
 	{
-		if (gameStage == 1) {
+		if (Title.Instance.gameStage == 1) {
 			Title.Instance.BoardHeight = 2;
 			Title.Instance.BoardWidth = 2;
 			Title.Instance.SwitchN = 2;
-		} else if (gameStage == 2) {
-		} else if (gameStage == 3) {
-		} else if (gameStage >= 4) {
-			Title.Instance.BoardHeight = 6;
-			Title.Instance.BoardWidth = 4;
+		} else if (Title.Instance.gameStage == 2) {
+		} else if (Title.Instance.gameStage == 3) {
+		} else if (Title.Instance.gameStage >= 4) {
+			Title.Instance.BoardHeight = 4;
+			Title.Instance.BoardWidth = 6;
 			Title.Instance.SwitchN = 6;
 		}
 	}
@@ -425,7 +425,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
@@ -439,7 +439,7 @@ public class GameManager : MonoBehaviour
 		ChatManager.instance.printChoiceChat("", "음...", "안녕하세요 교환원입니다.", ()=> {
 			ChatManager.instance.RemoveLastChat();
 			ChatManager.instance.printChat("음...");
-			life -= 50;
+			Title.Instance.life -= 50;
 			choiced = true;
 
 		}, ()=>{
@@ -451,7 +451,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds (1.0f);
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -467,7 +467,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (!choiced) {
 			ChatManager.instance.RemoveLastChat ();
-			life -= 50;
+			Title.Instance.life -= 50;
 		}
 		ChatManager.instance.printChat(recver.getName() + " 바꿔주세요.", sender);
 
@@ -480,7 +480,7 @@ public class GameManager : MonoBehaviour
 
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -488,7 +488,7 @@ public class GameManager : MonoBehaviour
 			}
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -511,7 +511,7 @@ public class GameManager : MonoBehaviour
 					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 230;
+					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -534,7 +534,7 @@ public class GameManager : MonoBehaviour
 
 				yield return new WaitForSeconds (1.0f);
 				ClearLED (sender, recver, lineUsing);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				yield break;
@@ -558,7 +558,7 @@ public class GameManager : MonoBehaviour
 
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 230;
+					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -643,7 +643,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
@@ -657,7 +657,7 @@ public class GameManager : MonoBehaviour
 		ChatManager.instance.printChoiceChat("", "음...", "안녕하세요 교환원입니다.", ()=> {
 			ChatManager.instance.RemoveLastChat();
 			ChatManager.instance.printChat("음...");
-			life -= 50;
+			Title.Instance.life -= 50;
 			choiced = true;
 
 		}, ()=>{
@@ -669,7 +669,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds (1.0f);
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -685,7 +685,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (!choiced) {
 			ChatManager.instance.RemoveLastChat ();
-			life -= 50;
+			Title.Instance.life -= 50;
 		}
 
 		ChatManager.instance.printChat ("수염쟁이 김씨 바꿔줘.", sender);
@@ -706,7 +706,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds (1.0f);
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -737,7 +737,7 @@ public class GameManager : MonoBehaviour
 
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -745,7 +745,7 @@ public class GameManager : MonoBehaviour
 			}
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -756,7 +756,7 @@ public class GameManager : MonoBehaviour
 
 				// 잘못 연결
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -767,7 +767,7 @@ public class GameManager : MonoBehaviour
 
 				// 잘못 연결
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -790,7 +790,7 @@ public class GameManager : MonoBehaviour
 					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 230;
+					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -813,7 +813,7 @@ public class GameManager : MonoBehaviour
 
 				yield return new WaitForSeconds (1.0f);
 				ClearLED (sender, recver, lineUsing);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				yield break;
@@ -837,7 +837,7 @@ public class GameManager : MonoBehaviour
 
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 230;
+					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -922,7 +922,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 460;
+				Title.Instance.life -= 460;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
@@ -935,7 +935,7 @@ public class GameManager : MonoBehaviour
 		ChatManager.instance.printChoiceChat("", "음...", "안녕하세요 교환원입니다.", ()=> {
 			ChatManager.instance.RemoveLastChat();
 			ChatManager.instance.printChat("음...");
-			life -= 100;
+			Title.Instance.life -= 100;
 			choiced = true;
 
 		}, ()=>{
@@ -947,7 +947,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds (1.0f);
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 460;
+				Title.Instance.life -= 460;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -963,7 +963,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (!choiced) {
 			ChatManager.instance.RemoveLastChat ();
-			life -= 100;
+			Title.Instance.life -= 100;
 		}
 		ChatManager.instance.printChat(recver.getName() + " 바꿔주게나.", sender);
 
@@ -976,7 +976,7 @@ public class GameManager : MonoBehaviour
 
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 460;
+				Title.Instance.life -= 460;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -984,7 +984,7 @@ public class GameManager : MonoBehaviour
 			}
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 460;
+				Title.Instance.life -= 460;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -995,7 +995,7 @@ public class GameManager : MonoBehaviour
 
 				// 잘못 연결
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -1018,7 +1018,7 @@ public class GameManager : MonoBehaviour
 					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 460;
+					Title.Instance.life -= 460;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -1041,7 +1041,7 @@ public class GameManager : MonoBehaviour
 
 				yield return new WaitForSeconds (1.0f);
 				ClearLED (sender, recver, lineUsing);
-				life -= 460;
+				Title.Instance.life -= 460;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				yield break;
@@ -1065,7 +1065,7 @@ public class GameManager : MonoBehaviour
 
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 460;
+					Title.Instance.life -= 460;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -1149,7 +1149,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 			if (Time.time - waitStart > 10*dayScale) {
 				// out of time
-				life -= 180;
+				Title.Instance.life -= 180;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
@@ -1169,7 +1169,7 @@ public class GameManager : MonoBehaviour
 
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 200;
+				Title.Instance.life -= 200;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -1177,7 +1177,7 @@ public class GameManager : MonoBehaviour
 			}
 			if (Time.time - waitStart > 20*dayScale+opponentWaiting*dayScale) {
 				// out of time
-				life -= 180;
+				Title.Instance.life -= 180;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -1200,7 +1200,7 @@ public class GameManager : MonoBehaviour
 					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 200;
+					Title.Instance.life -= 200;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -1223,7 +1223,7 @@ public class GameManager : MonoBehaviour
 
 				yield return new WaitForSeconds (1.0f);
 				ClearLED (sender, recver, lineUsing);
-				life -= 200;
+				Title.Instance.life -= 200;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				yield break;
@@ -1247,7 +1247,7 @@ public class GameManager : MonoBehaviour
 
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 200;
+					Title.Instance.life -= 200;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -1331,7 +1331,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 			if (Time.time - waitStart > 30*dayScale) {
 				// out of time
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
@@ -1345,7 +1345,7 @@ public class GameManager : MonoBehaviour
 		ChatManager.instance.printChoiceChat("", "음...", "안녕하세요 교환원입니다.", ()=> {
 			ChatManager.instance.RemoveLastChat();
 			ChatManager.instance.printChat("음...");
-			life -= 50;
+			Title.Instance.life -= 50;
 			choiced = true;
 
 		}, ()=>{
@@ -1357,7 +1357,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds (1.0f);
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -1373,9 +1373,9 @@ public class GameManager : MonoBehaviour
 		}
 		if (!choiced) {
 			ChatManager.instance.RemoveLastChat ();
-			life -= 50;
+			Title.Instance.life -= 50;
 		}
-		ChatManager.instance.printChat("전화번호 " + recver.getNumber().Substring(recver.getNumber().Length-4) + " 바꿔주세요.", sender);
+		ChatManager.instance.printChat("전화번호 " + recver.getNumber().Substring(recver.getNumber().Length-4) + " 바꿔줘요.", sender);
 
 		Debug.Log("print chat");
 
@@ -1385,7 +1385,7 @@ public class GameManager : MonoBehaviour
 
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
@@ -1408,7 +1408,7 @@ public class GameManager : MonoBehaviour
 					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 230;
+					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -1431,7 +1431,7 @@ public class GameManager : MonoBehaviour
 
 				yield return new WaitForSeconds (1.0f);
 				ClearLED (sender, recver, lineUsing);
-				life -= 230;
+				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				yield break;
@@ -1455,7 +1455,7 @@ public class GameManager : MonoBehaviour
 
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
-					life -= 230;
+					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
 					yield break;
@@ -1617,15 +1617,15 @@ public class GameManager : MonoBehaviour
     {
 		dayBeginTime = Time.time;
 		string[] comments = new string[] { " 바꿔주세요.", " 바꿔줘요.", " 바꿔 주십시오." };
-		if (gameStage < 1)
-			gameStage = 1;
-		if (gameStage == 1) {
+		if (Title.Instance.gameStage < 1)
+			Title.Instance.gameStage = 1;
+		if (Title.Instance.gameStage == 1) {
 			PeopleManager.instance.addPerson (new Person ("김개똥", "남성", "010-2737-1928", "1A"));
 			PeopleManager.instance.addPerson (new Person ("양창무", "남성", "010-5236-4432", "2B"));
 			PeopleManager.instance.addPerson (new Person ("류연아", "여성", "010-3324-8477", "1B"));
 
 			dayScale = 1;
-			const int NumCalls = 3;
+			const int NumCalls = 1;
 			goalCount = NumCalls;
 
 			calls.Clear ();
@@ -1637,30 +1637,30 @@ public class GameManager : MonoBehaviour
 				PeopleManager.instance.people [1].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
 				5, 10
 			});
-			calls.Add (new object[] {
-				"tutorialCall",
-				40f, 
-				PeopleManager.instance.people [1],
-				PeopleManager.instance.people [2],
-				PeopleManager.instance.people [2].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
-				5, 10
-			});
-			calls.Add (new object[] {
-				"tutorialCall",
-				70f, 
-				PeopleManager.instance.people [2],
-				PeopleManager.instance.people [0],
-				PeopleManager.instance.people [0].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
-				5, 10
-			});
+//			calls.Add (new object[] {
+//				"tutorialCall",
+//				40f, 
+//				PeopleManager.instance.people [1],
+//				PeopleManager.instance.people [2],
+//				PeopleManager.instance.people [2].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
+//				5, 10
+//			});
+//			calls.Add (new object[] {
+//				"tutorialCall",
+//				70f, 
+//				PeopleManager.instance.people [2],
+//				PeopleManager.instance.people [0],
+//				PeopleManager.instance.people [0].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
+//				5, 10
+//			});
 			return;
 
 //			StartCoroutine("tutorialCall", 
 //				new object[] { startTime, sender, recver, 
 //					recver.getName() + comments[UnityEngine.Random.Range(0, comments.Length)], 
 //				opponentWait, duration });
-		} else if (gameStage == 4) {
-			dayScale = 1 / Mathf.Sqrt (gameDay/2f);
+		} else if (Title.Instance.gameStage == 4) {
+			dayScale = 1 / Mathf.Sqrt (Title.Instance.gameDay/2f);
 			PeopleManager.instance.addPerson (new Person ("김개똥", "남성", "010-2737-1928", "1A"));
 			PeopleManager.instance.addPerson (new Person ("양창무", "남성", "010-5236-4432", "1B"));
 			PeopleManager.instance.addPerson (new Person ("류연아", "여성", "010-3324-8477", "1C"));
