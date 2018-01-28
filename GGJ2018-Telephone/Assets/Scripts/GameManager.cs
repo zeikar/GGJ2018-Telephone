@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 			// TODO Game over
 		}
 		if (now > 0 && life < 1000)
-			life += now/300;
+			life += Time.deltaTime/30;
 		if (life > 1000)
 			life = 1000;
 		{
@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
 			bool found = false;
 			for(int i = 0; i < lineSet.N; i ++)
 			{
-				//Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+				//Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
 				if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
 				{
 					found = true;
@@ -257,7 +257,7 @@ public class GameManager : MonoBehaviour
 
 		while(true)
 		{
-			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
 			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				SetSlotIndicator(sender.getSlot(), false);
@@ -404,8 +404,8 @@ public class GameManager : MonoBehaviour
 			bool found = false;
 			for(int i = 0; i < lineSet.N; i ++)
 			{
-				//Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-				if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+				//Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+				if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
 				{
 					found = true;
 					lineUsing = i;
@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour
 		});
 		for (int i = 0; i < 5; i++) {
 			yield return new WaitForSeconds (1.0f);
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -470,9 +470,9 @@ public class GameManager : MonoBehaviour
 		waitStart = Time.time;
 		while(true)
 		{
-			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -489,7 +489,7 @@ public class GameManager : MonoBehaviour
 				yield break;;
 			}
 
-			if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+			if (LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -501,8 +501,8 @@ public class GameManager : MonoBehaviour
 			while(Time.time - currentTime < opponentWaiting*dayScale)
 			{
 				if (!(
-					LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-					LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+					LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
 					life -= 230;
@@ -523,7 +523,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -533,7 +533,7 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				yield break;
 			}
-			if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -619,8 +619,8 @@ public class GameManager : MonoBehaviour
 			bool found = false;
 			for(int i = 0; i < lineSet.N; i ++)
 			{
-				//Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-				if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+				//Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+				if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
 				{
 					found = true;
 					lineUsing = i;
@@ -658,7 +658,7 @@ public class GameManager : MonoBehaviour
 		});
 		for (int i = 0; i < 5; i++) {
 			yield return new WaitForSeconds (1.0f);
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -695,7 +695,7 @@ public class GameManager : MonoBehaviour
 		});
 		for (int i = 0; i < 5; i++) {
 			yield return new WaitForSeconds (1.0f);
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -724,9 +724,9 @@ public class GameManager : MonoBehaviour
 		waitStart = Time.time;
 		while(true)
 		{
-			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -742,7 +742,7 @@ public class GameManager : MonoBehaviour
 				ClearLED (sender, recver, lineUsing);
 				yield break;;
 			}
-			if (LineSetScript.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
+			if (LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
 			    cableEndConnections.ContainsKey (lineUsing * 2 + 1)) {
 
 				// 잘못 연결
@@ -753,7 +753,7 @@ public class GameManager : MonoBehaviour
 				ClearLED (sender, recver, lineUsing);
 				yield break;
 			}
-			if (LineSetScript.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
+			if (LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
 				cableEndConnections.ContainsKey (lineUsing * 2 + 1)) {
 
 				// 잘못 연결
@@ -765,7 +765,7 @@ public class GameManager : MonoBehaviour
 				yield break;
 			}
 
-			if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+			if (LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -777,8 +777,8 @@ public class GameManager : MonoBehaviour
 			while(Time.time - currentTime < opponentWaiting*dayScale)
 			{
 				if (!(
-					LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-					LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+					LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
 					life -= 230;
@@ -799,7 +799,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -809,7 +809,7 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				yield break;
 			}
-			if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -895,8 +895,8 @@ public class GameManager : MonoBehaviour
 			bool found = false;
 			for(int i = 0; i < lineSet.N; i ++)
 			{
-				//Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-				if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+				//Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+				if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
 				{
 					found = true;
 					lineUsing = i;
@@ -933,7 +933,7 @@ public class GameManager : MonoBehaviour
 		});
 		for (int i = 0; i < 5; i++) {
 			yield return new WaitForSeconds (1.0f);
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 460;
 				isCalling [sender.getSlot ()] = false;
@@ -960,9 +960,9 @@ public class GameManager : MonoBehaviour
 		waitStart = Time.time;
 		while(true)
 		{
-			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 460;
 				isCalling [sender.getSlot ()] = false;
@@ -978,7 +978,7 @@ public class GameManager : MonoBehaviour
 				ClearLED (sender, recver, lineUsing);
 				yield break;;
 			}
-			if (LineSetScript.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
+			if (LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
 				cableEndConnections.ContainsKey (lineUsing * 2 + 1)) {
 
 				// 잘못 연결
@@ -990,7 +990,7 @@ public class GameManager : MonoBehaviour
 				yield break;
 			}
 
-			if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+			if (LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -1002,8 +1002,8 @@ public class GameManager : MonoBehaviour
 			while(Time.time - currentTime < opponentWaiting*dayScale)
 			{
 				if (!(
-					LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-					LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+					LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
 					life -= 460;
@@ -1024,7 +1024,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -1034,7 +1034,7 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				yield break;
 			}
-			if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -1119,8 +1119,8 @@ public class GameManager : MonoBehaviour
 			bool found = false;
 			for(int i = 0; i < lineSet.N; i ++)
 			{
-				//Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-				if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+				//Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+				if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
 				{
 					found = true;
 					lineUsing = i;
@@ -1150,9 +1150,9 @@ public class GameManager : MonoBehaviour
 		waitStart = Time.time;
 		while(true)
 		{
-			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 200;
 				isCalling [sender.getSlot ()] = false;
@@ -1169,7 +1169,7 @@ public class GameManager : MonoBehaviour
 				yield break;;
 			}
 
-			if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+			if (LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -1181,8 +1181,8 @@ public class GameManager : MonoBehaviour
 			while(Time.time - currentTime < opponentWaiting*dayScale)
 			{
 				if (!(
-					LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-					LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+					LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
 					life -= 200;
@@ -1203,7 +1203,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -1213,7 +1213,7 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				yield break;
 			}
-			if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -1298,8 +1298,8 @@ public class GameManager : MonoBehaviour
 			bool found = false;
 			for(int i = 0; i < lineSet.N; i ++)
 			{
-				//Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-				if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
+				//Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+				if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i*2, slot))
 				{
 					found = true;
 					lineUsing = i;
@@ -1337,7 +1337,7 @@ public class GameManager : MonoBehaviour
 		});
 		for (int i = 0; i < 5; i++) {
 			yield return new WaitForSeconds (1.0f);
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -1363,9 +1363,9 @@ public class GameManager : MonoBehaviour
 
 		while(true)
 		{
-			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
+			if (!(LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				yield return new WaitForSeconds (1.0f);
 				life -= 230;
 				isCalling [sender.getSlot ()] = false;
@@ -1374,7 +1374,7 @@ public class GameManager : MonoBehaviour
 				yield break;
 			}
 
-			if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
+			if (LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2+1, recver.getSlot()))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -1386,8 +1386,8 @@ public class GameManager : MonoBehaviour
 			while(Time.time - currentTime < opponentWaiting*dayScale)
 			{
 				if (!(
-					LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-					LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+					LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+					LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					yield return new WaitForSeconds (1.0f);
 					ClearLED (sender, recver, lineUsing);
 					life -= 230;
@@ -1408,7 +1408,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -1418,7 +1418,7 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				yield break;
 			}
-			if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
 				break;
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -1496,8 +1496,8 @@ public class GameManager : MonoBehaviour
             bool found = false;
             for (int i = 0; i < lineSet.N; i++)
             {
-                //Debug.Log(i + " " + LineSetScript.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
-                if (LineSetScript.IsSwitchOperatorOn(i) && IsCableConnected(i * 2, slot))
+                //Debug.Log(i + " " + LineSetScript.instance.IsSwitchOperatorOn(i) + " " + IsCableConnected(i*2, slot));
+                if (LineSetScript.instance.IsSwitchOperatorOn(i) && IsCableConnected(i * 2, slot))
                 {
                     found = true;
                     lineUsing = i;
@@ -1520,9 +1520,9 @@ public class GameManager : MonoBehaviour
 
         while (true)
         {
-            Debug.Log("line valid "      + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+            Debug.Log("line valid "      + LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
-            if (LineSetScript.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2 + 1, recver.getSlot()))
+            if (LineSetScript.instance.IsSwitchTelephoneOn(lineUsing) && IsCableConnected(lineUsing * 2 + 1, recver.getSlot()))
                 break;
             yield return new WaitForSeconds(0.1f);
         }
@@ -1545,7 +1545,7 @@ public class GameManager : MonoBehaviour
 
         while (true)
         {
-            if (!LineSetScript.IsSwitchTelephoneOn(lineUsing))
+            if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
                 break;
             yield return new WaitForSeconds(0.1f);
         }
