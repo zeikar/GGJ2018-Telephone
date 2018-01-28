@@ -24,14 +24,11 @@ public class GameManager : MonoBehaviour
 		if (Instance.gameStage == -1)
 			Instance.gameStage = Title.firstStage;
     }
-
-	GameObject gauge;
+    
 	float life = 900;
     void Start()
     {
         InitGame();
-
-		gauge = GameObject.Find ("LifeGauge");
     }
 
 	void OnGUI()
@@ -71,11 +68,11 @@ public class GameManager : MonoBehaviour
 			life = 1000;
 		{
 			// life gauge
-			var s = gauge.transform.localScale;
+			var s = GameObject.Find("LifeGauge").transform.localScale;
 			s.y = 2000-life * 2 + Mathf.Sin (now / 3) * 20 + UnityEngine.Random.Range (-2.5f, 2.5f);
 			if (s.y < 0)
 				s.y = 0;
-			gauge.transform.localScale = s;
+            GameObject.Find("LifeGauge").transform.localScale = s;
 		}
 		for (; callsIndex < calls.Count; callsIndex++) {
 			var row = calls [callsIndex];
@@ -93,6 +90,7 @@ public class GameManager : MonoBehaviour
 			// day completed!
 			gameStage ++;
 			SetPreStageVariable ();
+            goalCount = -1;
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
 		}
     }

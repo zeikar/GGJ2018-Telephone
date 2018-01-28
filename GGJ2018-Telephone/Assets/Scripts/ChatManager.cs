@@ -44,9 +44,9 @@ public class ChatManager : MonoBehaviour
         chatBubble.transform.localPosition = new Vector3(chatBubble.transform.localPosition.x,
             chatPanel.GetChild(chatPanel.childCount - 2).localPosition.y - chatPanel.GetChild(chatPanel.childCount - 2).GetComponent<RectTransform>().rect.height, chatBubble.transform.localPosition.z);
 
-        if (chatBubble.transform.position.y < 120)
+        if (chatBubble.transform.position.y < chatPanel.position.y)
         {
-            chatPanel.position = new Vector3(chatPanel.position.x, chatPanel.position.y + 60, chatPanel.position.z);
+            chatPanel.position = new Vector3(chatPanel.position.x,  chatPanel.position.y - chatBubble.transform.position.y + 140, chatPanel.position.z);
         }
 
         if (person != null)
@@ -78,9 +78,9 @@ public class ChatManager : MonoBehaviour
         chatBubble.transform.localPosition = new Vector3(chatBubble.transform.localPosition.x,
             chatPanel.GetChild(chatPanel.childCount - 2).localPosition.y - chatPanel.GetChild(chatPanel.childCount - 2).GetComponent<RectTransform>().rect.height, chatBubble.transform.localPosition.z);
 
-        if (chatBubble.transform.position.y < 140)
+        if (chatBubble.transform.position.y < chatPanel.position.y)
         {
-            chatPanel.position = new Vector3(chatPanel.position.x, chatPanel.position.y + 80, chatPanel.position.z);
+            chatPanel.position = new Vector3(chatPanel.position.x, chatPanel.position.y - chatBubble.transform.position.y + 180, chatPanel.position.z);
         }
 
         Text[] texts = chatBubble.GetComponentsInChildren<Text>();
