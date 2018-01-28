@@ -15,7 +15,7 @@ public class Book : MonoBehaviour
     public static Book instance;
     public Canvas canvas;
     [SerializeField]
-    RectTransform BookPanel;
+    RectTransform BookPanel = null;
     public Transform BookPages;
     public Sprite background;
     public List<Text> bookPages;

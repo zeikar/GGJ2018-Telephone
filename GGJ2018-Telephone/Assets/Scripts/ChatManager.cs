@@ -19,7 +19,10 @@ public class ChatManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+    }
 
+    void Start()
+    {
         colorDict = new Dictionary<string, Color>();
     }
 

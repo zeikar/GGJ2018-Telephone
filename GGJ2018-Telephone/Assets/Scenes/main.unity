@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 70757375}
   - component: {fileID: 70757376}
   - component: {fileID: 70757377}
-  - component: {fileID: 70757378}
   - component: {fileID: 70757379}
   m_Layer: 0
   m_Name: Manager
@@ -174,18 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf1b924ee9a5bf4da13107535d2e45a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &70757378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 70757374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daa05091f8445ad4f8f0c90b219cf55e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameStage: -1
 --- !u!114 &70757379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2064,6 +2051,47 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000061035156, y: 80}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &1205051460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1205051462}
+  - component: {fileID: 1205051461}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1205051461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1205051460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa05091f8445ad4f8f0c90b219cf55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameStage: -1
+--- !u!4 &1205051462
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1205051460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 546.12103, y: 225.74864, z: -3.375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1324618686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,6 +2279,8 @@ MonoBehaviour:
   Height: 6
   CableSlot: {fileID: 1555929099241390, guid: 781241a040a7f446f96646a8dbd0f5ea, type: 2}
   Switchboard: {fileID: 1527345380}
+  cableSlots: []
+  indicators: []
 --- !u!4 &1527345382
 Transform:
   m_ObjectHideFlags: 0
@@ -2301,6 +2331,9 @@ MonoBehaviour:
   CableEnd: {fileID: 1532944257334492, guid: 1765db9b1863242cab0e73f6319a033c, type: 2}
   lines: []
   cableEnds: []
+  indicators: []
+  switchOns: []
+  switchOffs: []
 --- !u!4 &1677549122
 Transform:
   m_ObjectHideFlags: 0

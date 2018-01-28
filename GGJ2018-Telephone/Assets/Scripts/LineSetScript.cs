@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LineSetScript : MonoBehaviour {
+
+    public static LineSetScript instance;
+
 	public int N = 3; // max = 6
 	public GameObject LineSet;
 	public GameObject LineSetArray;
@@ -10,26 +13,32 @@ public class LineSetScript : MonoBehaviour {
 
 	public List<GameObject> lines;
 	public List<GameObject> cableEnds;
-    public static List<SpriteRenderer> indicators = new List<SpriteRenderer>();
-    public static List<GameObject> switchOns = new List<GameObject>();
-    public static List<GameObject> switchOffs = new List<GameObject>();
+    public List<SpriteRenderer> indicators = new List<SpriteRenderer>();
+    public List<GameObject> switchOns = new List<GameObject>();
+    public List<GameObject> switchOffs = new List<GameObject>();
 
-    public static void SwitchOn(int index, bool onoff)
+    void Awake()
+    {
+        instance = this;
+    }
+
+    public void SwitchOn(int index, bool onoff)
     {
         switchOns[index].SetActive(onoff);
         switchOffs[index].SetActive(!onoff);
     }
 
-    public static bool IsSwitchOperatorOn(int lineIndex)
+    public bool IsSwitchOperatorOn(int lineIndex)
     {
         return switchOns[lineIndex * 2].activeInHierarchy;
     }
-    public static bool IsSwitchTelephoneOn(int lineIndex)
+
+    public bool IsSwitchTelephoneOn(int lineIndex)
     {
         return switchOns[lineIndex * 2+1].activeInHierarchy;
     }
 
-    public static void ToggleSwitch(int index)
+    public void ToggleSwitch(int index)
     {
         //Debug.Log("TS "+index);
         if (switchOffs[index].activeInHierarchy)

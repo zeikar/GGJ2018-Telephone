@@ -13,8 +13,8 @@ public class SwitchScript : MonoBehaviour {
 
     public static SwitchScript Instance;
 
-	public static List<GameObject> cableSlots = new List<GameObject>();
-    public static List<SpriteRenderer> indicators = new List<SpriteRenderer>();
+	public List<GameObject> cableSlots = new List<GameObject>();
+    public List<SpriteRenderer> indicators = new List<SpriteRenderer>();
 
     void Awake()
     {

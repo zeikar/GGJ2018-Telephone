@@ -84,7 +84,7 @@ public class CableEndScript : MonoBehaviour {
 
 		hit = null;
 		var c2 = self.GetComponent<BoxCollider2D> ();
-		foreach (var slot in SwitchScript.cableSlots) {
+		foreach (var slot in SwitchScript.Instance.cableSlots) {
 			var c1 = slot.GetComponent<CircleCollider2D> ();
 			var dist = Physics2D.Distance (c1, c2);
 			if (dist.isOverlapped) {

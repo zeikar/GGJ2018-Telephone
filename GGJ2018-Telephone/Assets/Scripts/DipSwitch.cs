@@ -16,6 +16,6 @@ public class DipSwitch : MonoBehaviour {
 
     void OnMouseUp()
     {
-        LineSetScript.ToggleSwitch(index);
+        LineSetScript.instance.ToggleSwitch(index);
     }
 }
