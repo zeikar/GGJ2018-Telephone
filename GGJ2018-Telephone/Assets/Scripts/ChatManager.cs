@@ -95,6 +95,13 @@ public class ChatManager : MonoBehaviour
         buttons[1].onClick.AddListener(buttonCallback2);
     }
 
+	public void RemoveLastChat()
+	{
+		var o = chatPanel.GetChild (chatPanel.childCount - 1);
+		o.parent = null;
+		Destroy (o.gameObject);
+	}
+
     void test()
     {
         Debug.Log("asdasd");

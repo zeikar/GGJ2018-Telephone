@@ -483,7 +483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1097201400
 RectTransform:
   m_ObjectHideFlags: 0
@@ -787,7 +787,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1509477708}
-        m_MethodName: onLangClick
+        m_MethodName: onHelpClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1008,6 +1008,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textObj: {fileID: 1598944663}
+  SwitchN: -1
+  BoardWidth: -1
+  BoardHeight: -1
 --- !u!1 &1598944662
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,10 +46,10 @@ public class Title : MonoBehaviour {
 	public void onLangClick()
 	{
 		if (lang == "kr") {
-			textObj.text = "LANG: EN";
+			textObj.text = "Lang: EN";
 			lang = "en";
 		} else if (lang == "en") {
-			textObj.text = "LANG: KR";
+			textObj.text = "Lang: KR";
 			lang = "kr";
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,9 +25,13 @@ public class GameManager : MonoBehaviour
 			Instance.gameStage = Title.firstStage;
     }
 
+	GameObject gauge;
+	float life = 900;
     void Start()
     {
         InitGame();
+
+		gauge = GameObject.Find ("LifeGauge");
     }
 
 	void OnGUI()
@@ -60,6 +65,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 		var now = Time.time - stageBeginTime;
+		if (life < 1000)
+			life += now/30;
+		if (life > 1000)
+			life = 1000;
+		{
+			// life gauge
+			var s = gauge.transform.localScale;
+			s.y = 2000-life * 2 + Mathf.Sin (now / 3) * 20 + UnityEngine.Random.Range (-2.5f, 2.5f);
+			if (s.y < 0)
+				s.y = 0;
+			gauge.transform.localScale = s;
+		}
 		for (; callsIndex < calls.Count; callsIndex++) {
 			var row = calls [callsIndex];
 			if ((int)row [1] > now) {
@@ -72,15 +89,29 @@ public class GameManager : MonoBehaviour
 			}
 			StartCoroutine ((string)row[0], row);
 		}
+		if (goalCount == 0) {
+			// day completed!
+			gameStage ++;
+			SetPreStageVariable ();
+			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+		}
     }
+
+	void SetPreStageVariable()
+	{
+		if (gameStage == 1) {
+			Title.Instance.BoardHeight = 2;
+			Title.Instance.BoardWidth = 2;
+			Title.Instance.SwitchN = 2;
+		} else if (gameStage == 2) {
+		} else if (gameStage == 3) {
+		} else if (gameStage >= 4) {
+		}
+	}
 
     Dictionary<int, int> cableEndConnections = new Dictionary<int, int>();
     bool IsCableConnected(int cableEnd, int cableSlot)
     {
-        foreach (var kv in cableEndConnections)
-        {
-            Debug.Log(kv.Key + " : " + kv.Value);
-        }
         int value;
         if (cableEndConnections.TryGetValue(cableEnd, out value))
         {
@@ -170,7 +201,7 @@ public class GameManager : MonoBehaviour
 				{
 					found = true;
 					lineUsing = i;
-					Debug.Log("lineUsing " + i);
+			//		Debug.Log("lineUsing " + i);
 					SetLineIndicator(2*i, true);
 					break;
 				}
@@ -180,13 +211,35 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 		}
 
+		bool choiced = false;
+
+		ChatManager.instance.printChoiceChat("", "음...", "안녕하세요 교환원입니다.", ()=> {
+			ChatManager.instance.RemoveLastChat();
+			ChatManager.instance.printChat("음...");
+			choiced = true;
+					
+		}, ()=>{
+			ChatManager.instance.RemoveLastChat();
+			ChatManager.instance.printChat("안녕하세요 교환원입니다. 누구를 찾으시나요?");
+			choiced = true;
+		});
+		for (int i = 0; i < 5; i++) {
+			yield return new WaitForSeconds (1.0f);
+			if (choiced) {
+				yield return new WaitForSeconds (1.0f);
+				break;
+			}
+		}
+		if (!choiced) {
+			ChatManager.instance.RemoveLastChat ();
+		}
 		ChatManager.instance.printChat(msg, sender);
 
 		Debug.Log("print chat");
 
 		while(true)
 		{
-			Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
+			//Debug.Log("line valid " + LineSetScript.IsSwitchTelephoneOn(lineUsing) + " " + IsCableConnected(lineUsing * 2 + 1, recver.getSlot()));
 
 			if (!(LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()))) {
 				SetSlotIndicator(sender.getSlot(), false);
@@ -232,7 +285,7 @@ public class GameManager : MonoBehaviour
 		{
 			if (!(
 				LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-				LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 				SetSlotIndicator(sender.getSlot(), false);
 				SetLineIndicator(lineUsing * 2, false);
 				SetSlotIndicator(recver.getSlot(), false);
@@ -251,8 +304,8 @@ public class GameManager : MonoBehaviour
 			while (Time.time - currentTime < callDuration)
 			{
 				if (!(
-					LineSetScript.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
-					LineSetScript.IsSwitchTelephoneOn (lineUsing) && IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
+					IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+					IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 					SetSlotIndicator(sender.getSlot(), false);
 					SetLineIndicator(lineUsing * 2, false);
 					SetSlotIndicator(recver.getSlot(), false);
@@ -292,8 +345,10 @@ public class GameManager : MonoBehaviour
 		}
 		yield return new WaitForSeconds (1);
 		goalCount -= 1;
+
+		isCalling.Remove (recver.getSlot ());
+		isCalling.Remove (sender.getSlot ());
 	}
->>>>>>> Add tutorial stage/scene. Should start from title scene now.
 
     IEnumerator normalCall(object[] args)
     {

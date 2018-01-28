@@ -59,7 +59,10 @@ public class TutorialScript : MonoBehaviour {
 
 	void OnGUI() {
 		if (index < 9) {
-			
+			var style = GUI.skin.GetStyle ("label");
+			style.fontSize = 15;
+			style.alignment = TextAnchor.UpperLeft;
+
 			GUI.Label (imageRect, imgs [index]);
 			GUI.Label (descRect, descs [index]);
 		}

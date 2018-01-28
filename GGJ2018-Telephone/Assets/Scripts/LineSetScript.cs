@@ -31,7 +31,7 @@ public class LineSetScript : MonoBehaviour {
 
     public static void ToggleSwitch(int index)
     {
-        Debug.Log("TS "+index);
+        //Debug.Log("TS "+index);
         if (switchOffs[index].activeInHierarchy)
         {
             SwitchOn(index, true);
@@ -43,12 +43,7 @@ public class LineSetScript : MonoBehaviour {
             SoundManager.instance.SwitchSound(false);
         }
     }
-
-    void OnMouseUp()
-    {
-        Debug.Log("UP");
-    }
-
+		
     // Use this for initialization
     void Start () {
 		if (Title.Instance != null)

@@ -68,7 +68,6 @@ public class CableEndScript : MonoBehaviour {
 		p2.z = -8;
 		lineObject.transform.position = p2;
 		var delta = p - initialPosition;
-		Debug.Log ("LINE LEN " + delta.magnitude);
 		self.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(-delta.x, delta.y)*180/3.141592f);
 		lineObject.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(delta.y, delta.x)*180/3.141592f);
 		lineObject.transform.localScale = new Vector3 (delta.magnitude*100, 10, 1);
