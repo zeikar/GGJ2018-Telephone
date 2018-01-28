@@ -49,7 +49,7 @@ public class ChatManager : MonoBehaviour
 
         if (chatBubble.transform.position.y < chatPanel.position.y)
         {
-            chatPanel.position = new Vector3(chatPanel.position.x,  chatPanel.position.y - chatBubble.transform.position.y + 140, chatPanel.position.z);
+            chatPanel.position = new Vector3(chatPanel.position.x,  chatPanel.position.y - chatBubble.transform.position.y + Screen.height / 3.0f, chatPanel.position.z);
         }
 
         if (person != null)
@@ -83,7 +83,7 @@ public class ChatManager : MonoBehaviour
 
         if (chatBubble.transform.position.y < chatPanel.position.y)
         {
-            chatPanel.position = new Vector3(chatPanel.position.x, chatPanel.position.y - chatBubble.transform.position.y + 180, chatPanel.position.z);
+            chatPanel.position = new Vector3(chatPanel.position.x, chatPanel.position.y - chatBubble.transform.position.y + Screen.height / 2.5f, chatPanel.position.z);
         }
 
         Text[] texts = chatBubble.GetComponentsInChildren<Text>();
