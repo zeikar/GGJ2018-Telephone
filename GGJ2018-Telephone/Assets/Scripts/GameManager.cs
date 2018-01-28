@@ -317,6 +317,8 @@ public class GameManager : MonoBehaviour
 		}
 
 		{
+            SoundManager.instance.transmissionSound();
+
 			var currentTime = Time.time;
 			bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)
@@ -539,7 +541,10 @@ public class GameManager : MonoBehaviour
 		}
 
 		{
-			var currentTime = Time.time;
+            SoundManager.instance.transmissionSound();
+
+
+            var currentTime = Time.time;
 			bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)
 			{
@@ -815,7 +820,10 @@ public class GameManager : MonoBehaviour
 		}
 
 		{
-			var currentTime = Time.time;
+
+            SoundManager.instance.transmissionSound();
+
+            var currentTime = Time.time;
 			bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)
 			{
@@ -1040,7 +1048,10 @@ public class GameManager : MonoBehaviour
 		}
 
 		{
-			var currentTime = Time.time;
+            SoundManager.instance.transmissionSound();
+
+
+            var currentTime = Time.time;
 			bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)
 			{
@@ -1219,7 +1230,10 @@ public class GameManager : MonoBehaviour
 		}
 
 		{
-			var currentTime = Time.time;
+            SoundManager.instance.transmissionSound();
+
+
+            var currentTime = Time.time;
 			bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)
 			{
@@ -1424,7 +1438,10 @@ public class GameManager : MonoBehaviour
 		}
 
 		{
-			var currentTime = Time.time;
+            SoundManager.instance.transmissionSound();
+
+
+            var currentTime = Time.time;
 			bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)
 			{
@@ -1551,6 +1568,9 @@ public class GameManager : MonoBehaviour
         }
 
         {
+            SoundManager.instance.transmissionSound();
+
+
             var currentTime = Time.time;
             bool blinking = true;
 			while (Time.time - currentTime < callDuration*dayScale)

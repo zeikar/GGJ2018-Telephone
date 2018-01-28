@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource switchOn, switchOff;
     public AudioSource connectorOn, connectorOff;
     public AudioSource page, bookOpen, bookClose;
+    public AudioSource transmission;
 
     public AudioSource speech;
     public AudioClip[] speechClips;
@@ -71,4 +72,8 @@ public class SoundManager : MonoBehaviour
         speech.Play();
     }
 
+    public void transmissionSound()
+    {
+        transmission.Play();
+    }
 }
