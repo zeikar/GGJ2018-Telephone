@@ -306,7 +306,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 				SetSlotIndicator(sender.getSlot(), false);
 				SetLineIndicator(lineUsing * 2, false);
@@ -429,6 +429,7 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
+				goalCount -= 1;
 
 				yield break;;
 			}
@@ -458,6 +459,8 @@ public class GameManager : MonoBehaviour
 				if (!choiced) {
 					ChatManager.instance.RemoveLastChat ();
 				}
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (choiced) {
@@ -484,6 +487,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (Time.time - waitStart > 30*dayScale) {
@@ -492,6 +497,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;;
 			}
 
@@ -514,6 +521,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 				Debug.Log("wait opponent " + (Time.time - currentTime));
@@ -529,7 +538,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -537,6 +546,8 @@ public class GameManager : MonoBehaviour
 				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
@@ -561,6 +572,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 
@@ -647,6 +660,7 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
+				goalCount -= 1;
 
 				yield break;;
 			}
@@ -676,6 +690,8 @@ public class GameManager : MonoBehaviour
 				if (!choiced) {
 					ChatManager.instance.RemoveLastChat ();
 				}
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (choiced) {
@@ -713,6 +729,8 @@ public class GameManager : MonoBehaviour
 				if (!choiced) {
 					ChatManager.instance.RemoveLastChat ();
 				}
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (choiced) {
@@ -741,6 +759,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (Time.time - waitStart > 30*dayScale) {
@@ -749,6 +769,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;;
 			}
 			if (LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
@@ -760,6 +782,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
@@ -771,6 +795,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 
@@ -793,6 +819,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 				Debug.Log("wait opponent " + (Time.time - currentTime));
@@ -808,7 +836,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -816,6 +844,8 @@ public class GameManager : MonoBehaviour
 				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
@@ -840,6 +870,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 
@@ -926,6 +958,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
+				goalCount -= 1;
+
 				yield break;;
 			}
 		}
@@ -954,6 +988,8 @@ public class GameManager : MonoBehaviour
 				if (!choiced) {
 					ChatManager.instance.RemoveLastChat ();
 				}
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (choiced) {
@@ -980,6 +1016,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (Time.time - waitStart > 30*dayScale) {
@@ -988,6 +1026,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;;
 			}
 			if (LineSetScript.instance.IsSwitchTelephoneOn (lineUsing) && !IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()) &&
@@ -999,6 +1039,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 
@@ -1021,6 +1063,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 460;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 				Debug.Log("wait opponent " + (Time.time - currentTime));
@@ -1036,7 +1080,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -1044,6 +1088,8 @@ public class GameManager : MonoBehaviour
 				Title.Instance.life -= 460;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
@@ -1068,6 +1114,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 460;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 
@@ -1154,6 +1202,8 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
 
+				goalCount -= 1;
+
 				yield break;;
 			}
 		}
@@ -1173,6 +1223,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (Time.time - waitStart > 20*dayScale+opponentWaiting*dayScale) {
@@ -1181,6 +1233,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;;
 			}
 
@@ -1203,6 +1257,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 200;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 				Debug.Log("wait opponent " + (Time.time - currentTime));
@@ -1218,7 +1274,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -1226,6 +1282,8 @@ public class GameManager : MonoBehaviour
 				Title.Instance.life -= 200;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
@@ -1250,6 +1308,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 200;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 
@@ -1336,6 +1396,8 @@ public class GameManager : MonoBehaviour
 				isCalling [recver.getSlot ()] = false;
 				SetSlotIndicator (slot, false);
 
+				goalCount -= 1;
+
 				yield break;
 			}
 		}
@@ -1364,6 +1426,8 @@ public class GameManager : MonoBehaviour
 				if (!choiced) {
 					ChatManager.instance.RemoveLastChat ();
 				}
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (choiced) {
@@ -1389,6 +1453,8 @@ public class GameManager : MonoBehaviour
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
 				ClearLED (sender, recver, lineUsing);
+				goalCount -= 1;
+
 				yield break;
 			}
 
@@ -1411,6 +1477,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 				Debug.Log("wait opponent " + (Time.time - currentTime));
@@ -1426,7 +1494,7 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			if (!(
-				LineSetScript.instance.IsSwitchOperatorOn (lineUsing) && IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
+				IsCableConnected (lineUsing * 2, sender.getSlot ()) &&
 				IsCableConnected (lineUsing * 2 + 1, recver.getSlot ()))) {
 
 				yield return new WaitForSeconds (1.0f);
@@ -1434,6 +1502,8 @@ public class GameManager : MonoBehaviour
 				Title.Instance.life -= 230;
 				isCalling [sender.getSlot ()] = false;
 				isCalling [recver.getSlot ()] = false;
+				goalCount -= 1;
+
 				yield break;
 			}
 			if (!LineSetScript.instance.IsSwitchTelephoneOn(lineUsing))
@@ -1458,6 +1528,8 @@ public class GameManager : MonoBehaviour
 					Title.Instance.life -= 230;
 					isCalling [sender.getSlot ()] = false;
 					isCalling [recver.getSlot ()] = false;
+					goalCount -= 1;
+
 					yield break;
 				}
 
@@ -1625,7 +1697,7 @@ public class GameManager : MonoBehaviour
 			PeopleManager.instance.addPerson (new Person ("류연아", "여성", "010-3324-8477", "1B"));
 
 			dayScale = 1;
-			const int NumCalls = 1;
+			const int NumCalls = 3;
 			goalCount = NumCalls;
 
 			calls.Clear ();
@@ -1637,22 +1709,22 @@ public class GameManager : MonoBehaviour
 				PeopleManager.instance.people [1].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
 				5, 10
 			});
-//			calls.Add (new object[] {
-//				"tutorialCall",
-//				40f, 
-//				PeopleManager.instance.people [1],
-//				PeopleManager.instance.people [2],
-//				PeopleManager.instance.people [2].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
-//				5, 10
-//			});
-//			calls.Add (new object[] {
-//				"tutorialCall",
-//				70f, 
-//				PeopleManager.instance.people [2],
-//				PeopleManager.instance.people [0],
-//				PeopleManager.instance.people [0].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
-//				5, 10
-//			});
+			calls.Add (new object[] {
+				"tutorialCall",
+				40f, 
+				PeopleManager.instance.people [1],
+				PeopleManager.instance.people [2],
+				PeopleManager.instance.people [2].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
+				5, 10
+			});
+			calls.Add (new object[] {
+				"tutorialCall",
+				70f, 
+				PeopleManager.instance.people [2],
+				PeopleManager.instance.people [0],
+				PeopleManager.instance.people [0].getName () + comments [UnityEngine.Random.Range (0, comments.Length)],
+				5, 10
+			});
 			return;
 
 //			StartCoroutine("tutorialCall", 
@@ -1691,15 +1763,13 @@ public class GameManager : MonoBehaviour
 			// find kim 1, trick 1, angry 3, normal 7, mustache 1, important 1, 
 			float baseTime = 35f;
 			float scaledTime = baseTime * dayScale;
-			float beginTime = -11+5/dayScale-5;
+			float beginTime = 5/dayScale;
 			int PN = PeopleManager.instance.people.Count;
 			goalCount = 0;
-			for (int i = 0; i < 200 / scaledTime; i++) {
+			for (int i = 0; i < 180/scaledTime; i++) {
 				goalCount += 1;
-				beginTime += UnityEngine.Random.Range (15,30) * dayScale;
 				int pick1 = UnityEngine.Random.Range (0, 16);
-				if (pick1 < 6)
-					pick1 = 6;
+				pick1 = UnityEngine.Random.Range (0, 6);
 				if (pick1 < 3) {
 					int pick2 = UnityEngine.Random.Range (0, 4);
 					if (pick2 == 0) {
@@ -1823,6 +1893,7 @@ public class GameManager : MonoBehaviour
 
 
 				}
+				beginTime += UnityEngine.Random.Range (15,30) * dayScale;
 			}
 			return;
 		}
