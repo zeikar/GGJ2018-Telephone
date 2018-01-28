@@ -1769,7 +1769,6 @@ public class GameManager : MonoBehaviour
 			for (int i = 0; i < 180/scaledTime; i++) {
 				goalCount += 1;
 				int pick1 = UnityEngine.Random.Range (0, 16);
-				pick1 = UnityEngine.Random.Range (0, 6);
 				if (pick1 < 3) {
 					int pick2 = UnityEngine.Random.Range (0, 4);
 					if (pick2 == 0) {
