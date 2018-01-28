@@ -62,6 +62,7 @@
      <Compile Include="Assets\Scripts\ChatManager.cs" />
      <Compile Include="Assets\Scripts\DipSwitch.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameOverScript.cs" />
      <Compile Include="Assets\Scripts\LineSetScript.cs" />
      <Compile Include="Assets\Scripts\PeopleManager.cs" />
      <Compile Include="Assets\Scripts\Person.cs" />

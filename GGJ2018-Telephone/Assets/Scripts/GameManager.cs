@@ -1785,8 +1785,8 @@ public class GameManager : MonoBehaviour
 							"mustacheCall",
 //							"findKimCall",
 							beginTime, 
-							PeopleManager.instance.people [0],
-							PeopleManager.instance.people [1],
+							PeopleManager.instance.people [pj],
+							PeopleManager.instance.people [pi],
 							UnityEngine.Random.Range(3, 7),
 							UnityEngine.Random.Range(10, 20)
 						});
@@ -1804,8 +1804,8 @@ public class GameManager : MonoBehaviour
 							"importantCall",
 //							"trickCall",
 							beginTime, 
-							PeopleManager.instance.people [0],
-							PeopleManager.instance.people [1],
+							PeopleManager.instance.people [pi],
+							PeopleManager.instance.people [pj],
 							UnityEngine.Random.Range(3, 7),
 							UnityEngine.Random.Range(10, 20)
 						});
