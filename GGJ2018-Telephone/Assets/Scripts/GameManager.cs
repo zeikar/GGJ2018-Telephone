@@ -1669,7 +1669,9 @@ public class GameManager : MonoBehaviour
 			float scaledTime = baseTime * dayScale;
 			float beginTime = -11+5/dayScale-5;
 			int PN = PeopleManager.instance.people.Count;
-			for (int i = 0; i < 300 / scaledTime; i++) {
+			goalCount = 0;
+			for (int i = 0; i < 200 / scaledTime; i++) {
+				goalCount += 1;
 				beginTime += UnityEngine.Random.Range (15,30) * dayScale;
 				int pick1 = UnityEngine.Random.Range (0, 16);
 				if (pick1 < 6)
