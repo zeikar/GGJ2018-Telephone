@@ -114,14 +114,16 @@ public class ChatManager : MonoBehaviour
         messageText.text = "";
 
         chrSoundIndex = (int)Random.Range(0f, 3.45f);
-        Debug.Log("character index" + chrSoundIndex);
+        
+        // Debug.Log("character index" + chrSoundIndex);
 
         for (int i = 0; i < str.Length; ++i)
         {
             messageText.text += str[i];
             SoundManager.instance.speechSound(chrSoundIndex);
 
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(Random.Range(0.05f, 0.1f));
         }
+
     }
 }

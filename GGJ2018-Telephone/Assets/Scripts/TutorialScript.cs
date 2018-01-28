@@ -11,6 +11,9 @@ public class TutorialScript : MonoBehaviour {
 	public GameObject image;
 	public Text desc;
 	public Texture tut0, tut1, tut2, tut3, tut4, tut5, tut6, tut7, tut8;
+
+	public AudioSource buttonSound;
+
 	string[] descs = new string[]{
 		"당신은 전화교환수입니다.\n전화가 오면 케이블과 버튼을 조작하여\n 전화를 연결해야 합니다.",
 		"전화가 오면 녹색불이 들어옵니다.\n해당 구멍에 왼쪽 케이블을 연결합니다.",
@@ -50,6 +53,7 @@ public class TutorialScript : MonoBehaviour {
 			Screen.height * 3 / 10,
 			Screen.height * 4);
 		buttonRect = new Rect(Screen.width-Screen.height/10, Screen.height - Screen.height / 10, Screen.height/10, Screen.height / 10);
+		buttonSound = this.GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -68,6 +72,7 @@ public class TutorialScript : MonoBehaviour {
 		}
 		if (GUI.Button (buttonRect, "Next")) {
 			index++;
+			buttonSound.Play();
 			if (index == 9)
 				SceneManager.LoadScene ("scenes/title");
 		}
