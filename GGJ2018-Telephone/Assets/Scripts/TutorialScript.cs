@@ -12,6 +12,8 @@ public class TutorialScript : MonoBehaviour {
 	public Text desc;
 	public Texture tut0, tut1, tut2, tut3, tut4, tut5, tut6, tut7, tut8;
 
+    public Image uiImage;
+
 	public AudioSource buttonSound;
 
 	string[] descs = new string[]{
@@ -26,7 +28,8 @@ public class TutorialScript : MonoBehaviour {
 		"양 쪽 케이블을 뽑아서 정리하고, 다음 전화를 이어서 처리합니다.",
 
 	};
-	Texture[] imgs;
+    //Texture[] imgs;
+    public Sprite[] imgs;
 	Rect imageRect;
 	Rect buttonRect;
 	Rect descRect;
@@ -35,17 +38,17 @@ public class TutorialScript : MonoBehaviour {
 		//image.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Imgs/tut"+index);
 		//desc.text = descs [index];
 		index = 0;
-		imgs = new Texture[9] {
-			tut0,
-			tut1,
-			tut2,
-			tut3,
-			tut4,
-			tut5,
-			tut6,
-			tut7,
-			tut8,
-		};
+		//imgs = new Texture[9] {
+		//	tut0,
+		//	tut1,
+		//	tut2,
+		//	tut3,
+		//	tut4,
+		//	tut5,
+		//	tut6,
+		//	tut7,
+		//	tut8,
+		//};
 		imageRect = new Rect(0, 0, Screen.width, Screen.height);
 		descRect = new Rect (
 			Screen.width - Screen.height*3.25f / 10,
@@ -67,7 +70,7 @@ public class TutorialScript : MonoBehaviour {
 			style.fontSize = 15;
 			style.alignment = TextAnchor.UpperLeft;
 
-			GUI.Label (imageRect, imgs [index]);
+            uiImage.sprite = imgs[index];
 			GUI.Label (descRect, descs [index]);
 		}
 		if (GUI.Button (buttonRect, "Next")) {
