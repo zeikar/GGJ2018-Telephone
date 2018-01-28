@@ -2275,8 +2275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d308503e6a7b44452aae36626f68ba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 8
-  Height: 6
+  Width: 6
+  Height: 4
   CableSlot: {fileID: 1555929099241390, guid: 781241a040a7f446f96646a8dbd0f5ea, type: 2}
   Switchboard: {fileID: 1527345380}
   cableSlots: []

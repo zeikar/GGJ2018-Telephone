@@ -6,8 +6,8 @@ public class Person {
 
     string name;
     string sex;
-    string number;
-    string code;
+    public string number;
+    public string code;
     string description;
     
     public Person(string name, string sex, string number, string code, string description = "")
