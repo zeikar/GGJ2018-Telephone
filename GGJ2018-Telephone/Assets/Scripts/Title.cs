@@ -29,6 +29,7 @@ public class Title : MonoBehaviour {
 
 	public void onClick()
     {
+		life = 1000;
 		firstStage = 1;
 		gameStage = 1;
 		gameDay = 1;
@@ -39,6 +40,7 @@ public class Title : MonoBehaviour {
     }
 	public void onInfiClick()
 	{
+		life = 1000;
 		firstStage = 4;
 		gameStage = 4;
 		gameDay = 1;

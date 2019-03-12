@@ -8,7 +8,7 @@ public class GameOverScript : MonoBehaviour {
 	public Text text;
 	// Use this for initialization
 	void Start () {
-		text.text = "Game Over\nDay: " + Title.Instance.gameDay + "\n\nGame made by ipkn, elore, zulkur";
+		text.text = "Game Over\nDay: " + Title.Instance.gameDay + "\n\nGame made by ipkn, elore, zeikar";
 		StartCoroutine ("toTitle");
 	}
 
