@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 			// TODO Game over
 		}
 		if (now > 0 && Title.Instance.life < 1000)
-			Title.Instance.life += Time.deltaTime/3;
+			Title.Instance.life += Time.deltaTime;
 		if (Title.Instance.life > 1000)
 			Title.Instance.life = 1000;
 		if (Title.Instance.life < 0) {
